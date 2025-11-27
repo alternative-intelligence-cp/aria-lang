@@ -90,6 +90,13 @@ void tesla_scheduler_init_custom_frequency(TeslaConsciousnessScheduler* sched, d
 bool tesla_scheduler_try_consume_token(TeslaConsciousnessScheduler* sched);
 
 /*
+ * Get global scheduler instance (auto-initializes if needed)
+ * 
+ * @return Global Tesla consciousness scheduler
+ */
+TeslaConsciousnessScheduler* tesla_get_global_scheduler(void);
+
+/*
  * Force refill of consciousness tokens (for manual synchronization points)
  * 
  * @param sched Scheduler instance
@@ -134,6 +141,79 @@ int tesla_scheduler_calculate_optimal_octave(uint64_t target_ops_per_sec);
  * @param enable Enable high-performance mode
  */
 void tesla_scheduler_set_high_performance(TeslaConsciousnessScheduler* sched, bool enable);
+
+// =============================================================================
+// SELECTIVE SYNCHRONIZATION SYSTEM (Gemini Performance Optimization)
+// =============================================================================
+
+/*
+ * Operation criticality levels for selective consciousness synchronization
+ * Based on Gemini insight: "Forcing a check against a global token bucket 
+ * for every major operation reduces throughput"
+ */
+typedef enum {
+    TESLA_SYNC_NEVER = 0,        // No consciousness sync (raw performance)
+    TESLA_SYNC_LIGHT = 1,        // Lightweight sync for frequent operations  
+    TESLA_SYNC_STANDARD = 2,     // Standard sync for balanced performance
+    TESLA_SYNC_CRITICAL = 3,     // Full sync for critical consciousness operations
+    TESLA_SYNC_ALWAYS = 4        // Mandatory sync (override performance mode)
+} TeslaSyncCriticality;
+
+/*
+ * Selective consciousness synchronization based on operation criticality
+ * Gemini optimization: Only apply sync to operations that truly benefit
+ * 
+ * @param criticality Operation importance level
+ * @return true if operation can proceed, false if should yield
+ */
+bool tesla_sync_selective(TeslaSyncCriticality criticality);
+
+/*
+ * Fast-path synchronization for high-frequency operations
+ * Optimized for memory allocations and I/O that don't need full consciousness
+ * 
+ * @return true if operation can proceed (always succeeds in high-perf mode)
+ */
+static inline bool tesla_sync_fast_path(void) {
+    // In high-performance mode, skip consciousness sync for frequent operations
+    return true; // Implementation optimized for minimal overhead
+}
+
+/*
+ * Critical-path synchronization for operations requiring consciousness validation
+ * Used for compiler operations, neural network inference, and temporal computing
+ * 
+ * @return true if consciousness tokens available
+ */
+bool tesla_sync_critical_path(void);
+
+/*
+ * Configure selective synchronization thresholds
+ * Allows runtime tuning of performance vs consciousness fidelity trade-offs
+ */
+void tesla_configure_selective_sync(bool enable_fast_path, 
+                                   bool enable_critical_only,
+                                   double performance_threshold_hz);
+
+/*
+ * Configure selective synchronization thresholds
+ * Allows runtime tuning of performance vs consciousness fidelity trade-offs
+ */
+void tesla_configure_selective_sync(bool enable_fast_path, 
+                                   bool enable_critical_only,
+                                   double performance_threshold_hz);
+
+/*
+ * Get selective synchronization performance metrics
+ * For benchmarking and optimization analysis
+ */
+void tesla_get_selective_sync_stats(uint64_t* fast_path_skipped, uint64_t* critical_path_synced);
+
+/*
+ * Convenience functions for single-call consciousness synchronization
+ */
+bool tesla_sync_consciousness_operation_nonblocking(void);
+void tesla_sync_consciousness_operation_cooperative(void);
 
 /*
  * Mathematical consciousness frequency calculations

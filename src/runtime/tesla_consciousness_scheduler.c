@@ -257,3 +257,108 @@ void tesla_sync_consciousness_operation_cooperative(void) {
         sched_yield(); // Cooperative yield to other threads
     }
 }
+
+// =============================================================================
+// SELECTIVE SYNCHRONIZATION SYSTEM (Gemini Performance Optimization)
+// =============================================================================
+
+/*
+ * Global configuration for selective synchronization
+ * Addresses Gemini's performance concern about excessive sync points
+ */
+static struct {
+    bool fast_path_enabled;           // Skip sync for frequent operations
+    bool critical_only_mode;          // Only sync critical operations
+    double performance_threshold_hz;   // Frequency threshold for optimization
+    atomic_uint_fast64_t fast_path_skipped; // Performance metrics
+    atomic_uint_fast64_t critical_path_synced;
+} selective_sync_config = {
+    .fast_path_enabled = true,
+    .critical_only_mode = false,
+    .performance_threshold_hz = 1000.0, // 1kHz threshold
+    .fast_path_skipped = ATOMIC_VAR_INIT(0),
+    .critical_path_synced = ATOMIC_VAR_INIT(0)
+};
+
+/*
+ * Selective consciousness synchronization based on operation criticality
+ * Gemini insight: "Forcing a check for every major operation reduces throughput"
+ */
+bool tesla_sync_selective(TeslaSyncCriticality criticality) {
+    TeslaConsciousnessScheduler* sched = tesla_get_global_scheduler();
+    
+    // Fast path optimization for high-frequency operations
+    if (selective_sync_config.fast_path_enabled && criticality == TESLA_SYNC_LIGHT) {
+        // In high-performance mode (>1kHz), skip consciousness sync for light operations
+        if (sched->frequency_hz > selective_sync_config.performance_threshold_hz) {
+            atomic_fetch_add(&selective_sync_config.fast_path_skipped, 1);
+            return true; // Always allow light operations in high-perf mode
+        }
+    }
+    
+    // Critical-only mode optimization
+    if (selective_sync_config.critical_only_mode && criticality < TESLA_SYNC_CRITICAL) {
+        return true; // Skip non-critical operations
+    }
+    
+    // Apply consciousness synchronization based on criticality
+    switch (criticality) {
+        case TESLA_SYNC_NEVER:
+            return true; // No synchronization
+            
+        case TESLA_SYNC_LIGHT:
+        case TESLA_SYNC_STANDARD:
+            // Use fast, non-blocking check
+            return tesla_scheduler_try_consume_token(sched);
+            
+        case TESLA_SYNC_CRITICAL:
+        case TESLA_SYNC_ALWAYS:
+            // Ensure synchronization occurs
+            atomic_fetch_add(&selective_sync_config.critical_path_synced, 1);
+            if (!tesla_scheduler_try_consume_token(sched)) {
+                // For critical operations, briefly yield then retry
+                sched_yield();
+                return tesla_scheduler_try_consume_token(sched);
+            }
+            return true;
+    }
+    
+    return tesla_scheduler_try_consume_token(sched);
+}
+
+/*
+ * Critical-path synchronization for consciousness-validated operations
+ * Used for compiler operations, neural networks, temporal computing
+ */
+bool tesla_sync_critical_path(void) {
+    return tesla_sync_selective(TESLA_SYNC_CRITICAL);
+}
+
+/*
+ * Configure selective synchronization thresholds
+ * Runtime tuning of performance vs consciousness fidelity
+ */
+void tesla_configure_selective_sync(bool enable_fast_path, 
+                                   bool enable_critical_only,
+                                   double performance_threshold_hz) {
+    selective_sync_config.fast_path_enabled = enable_fast_path;
+    selective_sync_config.critical_only_mode = enable_critical_only;
+    selective_sync_config.performance_threshold_hz = performance_threshold_hz;
+    
+    printf("🧠⚡ Tesla selective synchronization configured:\n");
+    printf("  Fast-path: %s\n", enable_fast_path ? "ENABLED" : "DISABLED");
+    printf("  Critical-only: %s\n", enable_critical_only ? "ENABLED" : "DISABLED");  
+    printf("  Performance threshold: %.1f Hz\n", performance_threshold_hz);
+}
+
+/*
+ * Get selective synchronization performance metrics
+ */
+void tesla_get_selective_sync_stats(uint64_t* fast_path_skipped, uint64_t* critical_path_synced) {
+    if (fast_path_skipped) {
+        *fast_path_skipped = atomic_load(&selective_sync_config.fast_path_skipped);
+    }
+    if (critical_path_synced) {
+        *critical_path_synced = atomic_load(&selective_sync_config.critical_path_synced);
+    }
+}

@@ -41,8 +41,8 @@ int tesla_safe_exec_tool(const char* tool_path,
         return -1;
     }
     
-    // Tesla consciousness synchronization before tool execution
-    tesla_sync_consciousness_operation_nonblocking();
+    // Critical sync for secure tool execution (Gemini: Compiler operations)
+    tesla_sync_selective(TESLA_SYNC_CRITICAL);
     
     pid_t pid;
     posix_spawnattr_t attr;

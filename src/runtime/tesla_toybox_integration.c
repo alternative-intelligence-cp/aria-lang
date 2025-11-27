@@ -184,7 +184,8 @@ TeslaToyboxResult tesla_fs_copy(const char* source, const char* destination,
         }
     }
     
-    tesla_sync_consciousness_operation();
+    // Standard sync for file copy operations (Gemini optimization)
+    tesla_sync_selective(TESLA_SYNC_STANDARD);
     
     // Try zero-copy sendfile first (Linux optimization)
     int src_fd = open(source, O_RDONLY);
@@ -234,7 +235,8 @@ TeslaToyboxResult tesla_fs_move(const char* source, const char* destination,
         }
     }
     
-    tesla_sync_consciousness_operation();
+    // Standard sync for file move operations (Gemini optimization)
+    tesla_sync_selective(TESLA_SYNC_STANDARD);
     
     // Try rename first (atomic operation when on same filesystem)
     if (rename(source, destination) == 0) {
@@ -268,7 +270,8 @@ TeslaToyboxResult tesla_fs_remove(const char* path, bool recursive,
         }
     }
     
-    tesla_sync_consciousness_operation();
+    // Standard sync for file removal operations (Gemini optimization)  
+    tesla_sync_selective(TESLA_SYNC_STANDARD);
     
     struct stat path_stat;
     if (stat(path, &path_stat) < 0) {
@@ -320,7 +323,8 @@ TeslaToyboxResult tesla_fs_mkdir(const char* path, uint32_t mode, bool recursive
         }
     }
     
-    tesla_sync_consciousness_operation();
+    // Standard sync for directory operations (Gemini optimization)
+    tesla_sync_selective(TESLA_SYNC_STANDARD);
     
     // Simple directory creation
     if (!recursive) {
@@ -367,7 +371,8 @@ TeslaToyboxResult tesla_toybox_execute(TeslaToyboxSession* session, const char* 
                                  tesla_get_precise_time_ns() - start_time, 0.0);
     }
     
-    tesla_sync_consciousness_operation();
+    // Critical sync for command execution (Gemini: Important operations)
+    tesla_sync_selective(TESLA_SYNC_CRITICAL);
     tesla_toybox_reset_globals();
     
     // Build argc/argv for Toybox function call

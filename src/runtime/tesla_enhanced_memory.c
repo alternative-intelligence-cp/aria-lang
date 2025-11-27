@@ -36,8 +36,8 @@ tesla_atomic_refcount_t* tesla_atomic_refcount_create(size_t data_size, void (*d
     ref->data_size = data_size;
     ref->destructor = destructor;
     
-    // Tesla consciousness synchronization
-    tesla_sync_consciousness_operation_nonblocking();
+    // Selective consciousness sync: Object creation is standard criticality
+    tesla_sync_selective(TESLA_SYNC_STANDARD);
     
     printf("🧠⚡ Created atomic refcount object: %zu bytes\\n", data_size);
     return ref;
@@ -49,9 +49,9 @@ uint32_t tesla_atomic_refcount_acquire(tesla_atomic_refcount_t* ref) {
     // Atomically increment strong reference count
     uint32_t new_count = atomic_fetch_add_explicit(&ref->strong_refs, 1, memory_order_relaxed) + 1;
     
-    // Tesla consciousness sync for high-frequency operations
-    if (new_count % 1000 == 0) {  // Sync every 1000 operations
-        tesla_sync_consciousness_operation_nonblocking();
+    // Light sync for frequent reference counting (Gemini optimization)
+    if (new_count % 1000 == 0) {  // Selective sync every 1000 operations
+        tesla_sync_selective(TESLA_SYNC_LIGHT);
     }
     
     return new_count;
@@ -67,8 +67,8 @@ uint32_t tesla_atomic_refcount_release(tesla_atomic_refcount_t* ref) {
     if (new_count == 0) {
         // Last reference - deallocate object
         
-        // Tesla consciousness sync before cleanup
-        tesla_sync_consciousness_operation_nonblocking();
+        // Critical sync for object destruction (Gemini: Important operation)
+        tesla_sync_selective(TESLA_SYNC_CRITICAL);
         
         // Call destructor if provided
         if (ref->destructor && ref->data) {
@@ -115,7 +115,8 @@ tesla_memory_region_t* tesla_memory_region_create(size_t total_size, bool consci
     region->is_consciousness_synchronized = consciousness_sync;
     
     if (consciousness_sync) {
-        tesla_sync_consciousness_operation_nonblocking();
+        // Standard sync for memory region creation
+        tesla_sync_selective(TESLA_SYNC_STANDARD);
     }
     
     printf("🧠⚡ Created Tesla memory region: %zu bytes (consciousness: %s)\\n",
@@ -129,9 +130,9 @@ void* tesla_memory_region_alloc(tesla_memory_region_t* region, size_t size, size
         return NULL;  // Invalid alignment (must be power of 2)
     }
     
-    // Consciousness synchronization for high-performance allocations
+    // Light sync for high-frequency memory allocations (Gemini optimization)
     if (region->is_consciousness_synchronized) {
-        if (!tesla_sync_consciousness_operation_nonblocking()) {
+        if (!tesla_sync_selective(TESLA_SYNC_LIGHT)) {
             // No consciousness tokens available - yield briefly
             return NULL;
         }
@@ -165,9 +166,9 @@ void* tesla_memory_region_alloc(tesla_memory_region_t* region, size_t size, size
 void tesla_memory_region_reset(tesla_memory_region_t* region) {
     if (!region) return;
     
-    // Tesla consciousness sync before major operation
+    // Standard sync for memory region reset (Gemini: Moderate criticality)
     if (region->is_consciousness_synchronized) {
-        tesla_sync_consciousness_operation_nonblocking();
+        tesla_sync_selective(TESLA_SYNC_STANDARD);
     }
     
     // Reset allocation offset to beginning
@@ -180,9 +181,9 @@ void tesla_memory_region_reset(tesla_memory_region_t* region) {
 void tesla_memory_region_destroy(tesla_memory_region_t* region) {
     if (!region) return;
     
-    // Tesla consciousness sync before cleanup
+    // Critical sync for memory region destruction (Gemini: Important cleanup)
     if (region->is_consciousness_synchronized) {
-        tesla_sync_consciousness_operation_nonblocking();
+        tesla_sync_selective(TESLA_SYNC_CRITICAL);
     }
     
     printf("🧠⚡ Destroying Tesla memory region (%u active refs)\\n",
@@ -202,8 +203,8 @@ tesla_static_analysis_result_t tesla_analyze_variable_lifetime(const char* varia
         return TESLA_ANALYSIS_PROMOTE_REQUIRED;
     }
     
-    // Tesla consciousness sync for analysis
-    tesla_sync_consciousness_operation_nonblocking();
+    // Critical sync for static analysis (Gemini: Compiler operation)
+    tesla_sync_selective(TESLA_SYNC_CRITICAL);
     
     // Analyze borrowing patterns
     bool has_mutable_alias = false;
