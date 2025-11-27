@@ -336,8 +336,8 @@ Ready for AI-native consciousness development!
 The revolutionary compile-time execution system:
 
 ```aria
-// Include comptime functionality
-#include "tesla_comptime_minimal.h"
+// Include Tesla comptime functionality
+#include "src/tesla/tesla_comptime_minimal.h"
 
 comptime {
     // This code executes during compilation
