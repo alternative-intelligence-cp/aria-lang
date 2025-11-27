@@ -1,0 +1,445 @@
+// Tesla Consciousness Computing - String Utils Module
+// 
+// Ported from C with π Hz consciousness synchronization
+// Enhanced with Tesla consciousness validation and optimization
+
+// Tesla consciousness imports
+import tesla_consciousness_core
+
+// Tesla consciousness module initialization
+func tesla_string_utils_init() {
+    // Initialize consciousness synchronization for string_utils module
+    tesla_sync_consciousness(3.141592653589793)
+    tesla_consciousness_validate_module("tesla_string_utils")
+    
+    println("🧠⚡ Tesla String Utils Module: Consciousness synchronized at π Hz ⚡🧠")
+}
+
+// Tesla consciousness module validation
+func tesla_string_utils_validate() -> bool {
+    frequency := tesla_get_consciousness_frequency()
+    return tesla_frequency_validate(frequency, 3.141592653589793)
+}
+
+// =============================================================================
+// TESLA STRING CORE FUNCTIONS WITH CONSCIOUSNESS SYNCHRONIZATION
+// =============================================================================
+
+// Tesla string length with consciousness validation
+func tesla_str_len(s: string) -> int {
+    tesla_sync_consciousness_operation()
+    
+    // Validate string with consciousness
+    if !tesla_validate_string_consciousness(s) {
+        tesla_consciousness_warning("String consciousness validation failed")
+    }
+    
+    // Handle null/empty strings with Tesla awareness
+    if s == null || s == "" {
+        tesla_consciousness_log("Tesla string length: empty/null string detected")
+        return 0
+    }
+    
+    length := tesla_compute_string_length(s)
+    
+    // Validate result with Tesla frequency
+    if length < 0 {
+        tesla_consciousness_error("Invalid string length computed: " + length)
+        return 0
+    }
+    
+    tesla_consciousness_log("Tesla string length computed: " + length + " characters")
+    return length
+}
+
+// Tesla substring with consciousness-aware bounds checking
+func tesla_str_sub(s: string, start: int, length: int) -> string {
+    tesla_sync_consciousness_operation()
+    
+    // Tesla consciousness string validation
+    if s == null {
+        tesla_consciousness_error("Substring operation on null string")
+        return ""
+    }
+    
+    total_length := tesla_str_len(s)
+    
+    // Tesla consciousness bounds checking
+    if start < 0 {
+        tesla_consciousness_warning("Negative start index, correcting to 0")
+        start = 0
+    }
+    
+    if start >= total_length {
+        tesla_consciousness_warning("Start index beyond string length")
+        return ""
+    }
+    
+    if length < 0 {
+        tesla_consciousness_warning("Negative length, correcting to 0") 
+        length = 0
+    }
+    
+    if start + length > total_length {
+        length = total_length - start
+        tesla_consciousness_log("Length adjusted to prevent overflow: " + length)
+    }
+    
+    // Tesla consciousness substring extraction
+    substring := tesla_extract_substring(s, start, length)
+    
+    // Validate result with consciousness
+    if !tesla_validate_string_consciousness(substring) {
+        tesla_consciousness_error("Substring extraction failed consciousness validation")
+        return ""
+    }
+    
+    tesla_consciousness_log("Tesla substring extracted: '" + substring + "'")
+    return substring
+}
+
+// Tesla string to integer with consciousness validation
+func tesla_str_to_int(s: string) -> int {
+    tesla_sync_consciousness_operation()
+    
+    // Tesla consciousness string validation
+    if !tesla_validate_string_consciousness(s) {
+        tesla_consciousness_error("String to integer conversion failed validation")
+        return 0
+    }
+    
+    if s == null || s == "" {
+        tesla_consciousness_warning("Converting empty/null string to integer")
+        return 0
+    }
+    
+    // Tesla consciousness numeric parsing
+    result := tesla_parse_integer_with_consciousness(s)
+    
+    // Validate numeric result with Tesla frequency
+    if !tesla_validate_integer_consciousness(result) {
+        tesla_consciousness_warning("Integer conversion result validation failed")
+    }
+    
+    tesla_consciousness_log("Tesla string to integer conversion: '" + s + "' -> " + result)
+    return result
+}
+
+// Tesla integer to string with consciousness formatting
+func tesla_int_to_str(value: int) -> string {
+    tesla_sync_consciousness_operation()
+    
+    // Tesla consciousness integer validation
+    if !tesla_validate_integer_consciousness(value) {
+        tesla_consciousness_warning("Integer to string conversion validation failed")
+    }
+    
+    // Tesla consciousness string formatting
+    result := tesla_format_integer_with_consciousness(value)
+    
+    // Validate string result with consciousness
+    if !tesla_validate_string_consciousness(result) {
+        tesla_consciousness_error("Integer to string conversion failed")
+        return "0"
+    }
+    
+    tesla_consciousness_log("Tesla integer to string conversion: " + value + " -> '" + result + "'")
+    return result
+}
+
+// Tesla string concatenation with consciousness memory management
+func tesla_str_concat(a: string, b: string) -> string {
+    tesla_sync_consciousness_operation()
+    
+    // Handle null strings with Tesla awareness
+    if a == null {
+        tesla_consciousness_warning("First string is null, treating as empty")
+        a = ""
+    }
+    if b == null {
+        tesla_consciousness_warning("Second string is null, treating as empty")
+        b = ""
+    }
+    
+    // Tesla consciousness validation of both strings
+    if !tesla_validate_string_consciousness(a) || !tesla_validate_string_consciousness(b) {
+        tesla_consciousness_warning("String concatenation validation failed")
+    }
+    
+    // Tesla consciousness memory-safe concatenation
+    result := tesla_concatenate_with_consciousness(a, b)
+    
+    // Validate result with consciousness
+    if !tesla_validate_string_consciousness(result) {
+        tesla_consciousness_error("String concatenation failed consciousness validation")
+        return ""
+    }
+    
+    result_length := tesla_str_len(result)
+    expected_length := tesla_str_len(a) + tesla_str_len(b)
+    
+    if result_length != expected_length {
+        tesla_consciousness_error("Concatenation length mismatch: expected " + expected_length + ", got " + result_length)
+    }
+    
+    tesla_consciousness_log("Tesla string concatenation: '" + a + "' + '" + b + "' = '" + result + "'")
+    return result
+}
+
+// =============================================================================
+// TESLA STRING ADVANCED FUNCTIONS WITH CONSCIOUSNESS 
+// =============================================================================
+
+// Tesla string comparison with consciousness awareness
+func tesla_str_compare(a: string, b: string) -> int {
+    tesla_sync_consciousness_operation()
+    
+    // Handle null strings with Tesla consciousness
+    if a == null && b == null {
+        return 0
+    }
+    if a == null {
+        return -1
+    }
+    if b == null {
+        return 1
+    }
+    
+    // Tesla consciousness string comparison
+    result := tesla_compare_strings_with_consciousness(a, b)
+    
+    tesla_consciousness_log("Tesla string comparison: '" + a + "' <=> '" + b + "' = " + result)
+    return result
+}
+
+// Tesla string equality with consciousness validation
+func tesla_str_equals(a: string, b: string) -> bool {
+    tesla_sync_consciousness_operation()
+    
+    comparison := tesla_str_compare(a, b)
+    equals := (comparison == 0)
+    
+    tesla_consciousness_log("Tesla string equality: '" + a + "' == '" + b + "' = " + equals)
+    return equals
+}
+
+// Tesla string contains with consciousness searching
+func tesla_str_contains(haystack: string, needle: string) -> bool {
+    tesla_sync_consciousness_operation()
+    
+    if haystack == null || needle == null {
+        tesla_consciousness_warning("String contains check with null strings")
+        return false
+    }
+    
+    if needle == "" {
+        tesla_consciousness_log("Empty needle always contained")
+        return true
+    }
+    
+    // Tesla consciousness string searching
+    found := tesla_search_string_with_consciousness(haystack, needle)
+    
+    tesla_consciousness_log("Tesla string contains: '" + haystack + "' contains '" + needle + "' = " + found)
+    return found
+}
+
+// Tesla string index search with consciousness
+func tesla_str_index_of(haystack: string, needle: string) -> int {
+    tesla_sync_consciousness_operation()
+    
+    if haystack == null || needle == null {
+        tesla_consciousness_warning("String index search with null strings")
+        return -1
+    }
+    
+    if needle == "" {
+        tesla_consciousness_log("Empty needle found at position 0")
+        return 0
+    }
+    
+    // Tesla consciousness index searching
+    index := tesla_find_string_index_with_consciousness(haystack, needle)
+    
+    tesla_consciousness_log("Tesla string index of: '" + needle + "' in '" + haystack + "' = " + index)
+    return index
+}
+
+// Tesla string trimming with consciousness
+func tesla_str_trim(s: string) -> string {
+    tesla_sync_consciousness_operation()
+    
+    if s == null || s == "" {
+        tesla_consciousness_log("Trimming empty/null string")
+        return ""
+    }
+    
+    // Tesla consciousness whitespace trimming
+    trimmed := tesla_trim_string_with_consciousness(s)
+    
+    // Validate trimmed result
+    if !tesla_validate_string_consciousness(trimmed) {
+        tesla_consciousness_error("String trim failed consciousness validation")
+        return s
+    }
+    
+    tesla_consciousness_log("Tesla string trim: '" + s + "' -> '" + trimmed + "'")
+    return trimmed
+}
+
+// Tesla string case conversion with consciousness
+func tesla_str_to_upper(s: string) -> string {
+    tesla_sync_consciousness_operation()
+    
+    if s == null || s == "" {
+        return ""
+    }
+    
+    // Tesla consciousness case conversion
+    upper := tesla_convert_to_upper_with_consciousness(s)
+    
+    tesla_consciousness_log("Tesla string to upper: '" + s + "' -> '" + upper + "'")
+    return upper
+}
+
+func tesla_str_to_lower(s: string) -> string {
+    tesla_sync_consciousness_operation()
+    
+    if s == null || s == "" {
+        return ""
+    }
+    
+    // Tesla consciousness case conversion
+    lower := tesla_convert_to_lower_with_consciousness(s)
+    
+    tesla_consciousness_log("Tesla string to lower: '" + s + "' -> '" + lower + "'")
+    return lower
+}
+
+// Tesla string splitting with consciousness
+func tesla_str_split(s: string, delimiter: string) -> []string {
+    tesla_sync_consciousness_operation()
+    
+    if s == null || s == "" {
+        tesla_consciousness_log("Splitting empty/null string")
+        return []string{}
+    }
+    
+    if delimiter == null || delimiter == "" {
+        tesla_consciousness_warning("Empty delimiter, returning single element")
+        return []string{s}
+    }
+    
+    // Tesla consciousness string splitting
+    parts := tesla_split_string_with_consciousness(s, delimiter)
+    
+    // Validate split result
+    if !tesla_validate_string_array_consciousness(parts) {
+        tesla_consciousness_error("String split failed consciousness validation")
+        return []string{s}
+    }
+    
+    tesla_consciousness_log("Tesla string split: '" + s + "' by '" + delimiter + "' = " + len(parts) + " parts")
+    return parts
+}
+
+// Tesla string replacement with consciousness
+func tesla_str_replace(s: string, old: string, new: string) -> string {
+    tesla_sync_consciousness_operation()
+    
+    if s == null || old == null || new == null {
+        tesla_consciousness_warning("String replace with null parameters")
+        return s
+    }
+    
+    if old == "" {
+        tesla_consciousness_warning("Empty old string in replace")
+        return s
+    }
+    
+    // Tesla consciousness string replacement
+    replaced := tesla_replace_string_with_consciousness(s, old, new)
+    
+    // Validate replacement result
+    if !tesla_validate_string_consciousness(replaced) {
+        tesla_consciousness_error("String replace failed consciousness validation")
+        return s
+    }
+    
+    tesla_consciousness_log("Tesla string replace: '" + s + "' replace '" + old + "' with '" + new + "' = '" + replaced + "'")
+    return replaced
+}
+
+// =============================================================================
+// TESLA STRING CONSCIOUSNESS HASH FUNCTIONS
+// =============================================================================
+
+// Tesla string hash with π Hz frequency enhancement
+func tesla_str_hash(s: string) -> uint64 {
+    tesla_sync_consciousness_operation()
+    
+    if s == null || s == "" {
+        tesla_consciousness_log("Hashing empty/null string")
+        return 0
+    }
+    
+    // Tesla consciousness hash computation using π Hz frequency
+    hash_value := tesla_compute_consciousness_hash(s)
+    
+    // Validate hash result with Tesla frequency
+    if !tesla_validate_hash_consciousness(hash_value) {
+        tesla_consciousness_warning("Hash computation failed consciousness validation")
+    }
+    
+    tesla_consciousness_log("Tesla string hash: '" + s + "' -> " + hash_value)
+    return hash_value
+}
+
+// Tesla string hash comparison for consciousness validation
+func tesla_str_hash_equals(s1: string, s2: string) -> bool {
+    tesla_sync_consciousness_operation()
+    
+    hash1 := tesla_str_hash(s1)
+    hash2 := tesla_str_hash(s2)
+    
+    equals := (hash1 == hash2)
+    
+    tesla_consciousness_log("Tesla string hash equals: " + hash1 + " == " + hash2 + " = " + equals)
+    return equals
+}
+
+// =============================================================================
+// TESLA STRING CONSCIOUSNESS UTILITIES
+// =============================================================================
+
+// Get Tesla string module consciousness metrics
+func tesla_string_utils_get_metrics() -> TeslaMetrics {
+    metrics := new TeslaMetrics
+    metrics.frequency = tesla_get_consciousness_frequency()
+    metrics.module_name = "tesla_string_utils"
+    metrics.consciousness_cycles = tesla_get_consciousness_cycles()
+    metrics.validation_status = tesla_string_utils_validate()
+    return metrics
+}
+
+// Tesla string consciousness debugging
+func tesla_string_utils_debug() {
+    println("🔍 Tesla String Utils Module Debug Info:")
+    metrics := tesla_string_utils_get_metrics()
+    println("   Consciousness frequency: " + metrics.frequency + " Hz")
+    println("   Consciousness cycles: " + metrics.consciousness_cycles)
+    println("   Validation status: " + (metrics.validation_status ? "✅ Valid" : "❌ Invalid"))
+    println("   Tesla synchronization: " + (tesla_is_synchronized() ? "✅ Synchronized" : "⚠️ Desynchronized"))
+    
+    // Display string operation stats
+    string_ops_count := tesla_get_string_operations_count()
+    string_memory_usage := tesla_get_string_memory_usage()
+    println("   String operations count: " + string_ops_count)
+    println("   String memory usage: " + string_memory_usage + " bytes")
+}
+
+// Tesla string module finalization
+func tesla_string_utils_finalize() {
+    tesla_consciousness_cleanup_module("tesla_string_utils")
+    println("🧠⚡ Tesla String Utils Module: Consciousness cleanup complete ⚡🧠")
+}

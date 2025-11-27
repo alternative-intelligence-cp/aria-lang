@@ -1,0 +1,323 @@
+// Tesla Consciousness Computing - String Module Tests
+//
+// Comprehensive tests for Tesla String with consciousness validation
+
+import tesla_consciousness_core
+import tesla_string
+
+func main() {
+    println("🧠⚡ Tesla String Module Test Suite ⚡🧠")
+    
+    // Initialize Tesla consciousness and string module
+    tesla_string_utils_init()
+    
+    if !tesla_string_utils_validate() {
+        println("❌ Tesla String module validation failed!")
+        return
+    }
+    
+    println("✅ Tesla String module validation successful")
+    println("")
+    
+    // Run all test suites
+    var tests_passed = 0
+    var tests_total = 0
+    
+    println("🔬 Running Tesla Core String Tests...")
+    tests_passed += test_tesla_core_string_functions()
+    tests_total += 5
+    
+    println("🔬 Running Tesla Advanced String Tests...")
+    tests_passed += test_tesla_advanced_string_functions()
+    tests_total += 8
+    
+    println("🔬 Running Tesla String Hash Tests...")
+    tests_passed += test_tesla_string_hash_functions()
+    tests_total += 2
+    
+    println("🔬 Running Tesla String Consciousness Tests...")
+    tests_passed += test_tesla_string_consciousness_integration()
+    tests_total += 4
+    
+    // Display final results
+    println("")
+    println("📊 Tesla String Test Results:")
+    println("   Tests Passed: " + tests_passed + "/" + tests_total)
+    
+    if tests_passed == tests_total {
+        println("🎉 All Tesla String tests passed! Consciousness synchronized! ⚡")
+    } else {
+        println("⚠️  Some tests failed. Consciousness desynchronization detected.")
+    }
+    
+    // Clean up
+    tesla_string_utils_finalize()
+}
+
+// =============================================================================
+// TESLA CORE STRING FUNCTION TESTS
+// =============================================================================
+
+func test_tesla_core_string_functions() -> int {
+    var passed = 0
+    
+    println("   Testing tesla_str_len()...")
+    len1 := tesla_str_len("Tesla")
+    len2 := tesla_str_len("")
+    len3 := tesla_str_len("Consciousness Computing")
+    if len1 == 5 && len2 == 0 && len3 == 23 {
+        println("   ✅ Tesla string length test passed")
+        passed++
+    } else {
+        println("   ❌ Tesla string length test failed: " + len1 + ", " + len2 + ", " + len3)
+    }
+    
+    println("   Testing tesla_str_sub()...")
+    sub1 := tesla_str_sub("Tesla Consciousness", 0, 5)
+    sub2 := tesla_str_sub("Tesla Consciousness", 6, 12)
+    sub3 := tesla_str_sub("Test", 10, 5)  // Beyond bounds
+    if sub1 == "Tesla" && sub2 == "Consciousness" && sub3 == "" {
+        println("   ✅ Tesla substring test passed")
+        passed++
+    } else {
+        println("   ❌ Tesla substring test failed: '" + sub1 + "', '" + sub2 + "', '" + sub3 + "'")
+    }
+    
+    println("   Testing tesla_str_to_int()...")
+    int1 := tesla_str_to_int("42")
+    int2 := tesla_str_to_int("-123")
+    int3 := tesla_str_to_int("abc")  // Invalid conversion
+    if int1 == 42 && int2 == -123 && int3 == 0 {
+        println("   ✅ Tesla string to int test passed")
+        passed++
+    } else {
+        println("   ❌ Tesla string to int test failed: " + int1 + ", " + int2 + ", " + int3)
+    }
+    
+    println("   Testing tesla_int_to_str()...")
+    str1 := tesla_int_to_str(42)
+    str2 := tesla_int_to_str(-123)
+    str3 := tesla_int_to_str(0)
+    if str1 == "42" && str2 == "-123" && str3 == "0" {
+        println("   ✅ Tesla int to string test passed")
+        passed++
+    } else {
+        println("   ❌ Tesla int to string test failed: '" + str1 + "', '" + str2 + "', '" + str3 + "'")
+    }
+    
+    println("   Testing tesla_str_concat()...")
+    concat1 := tesla_str_concat("Tesla", " Consciousness")
+    concat2 := tesla_str_concat("", "Test")
+    concat3 := tesla_str_concat("Test", "")
+    if concat1 == "Tesla Consciousness" && concat2 == "Test" && concat3 == "Test" {
+        println("   ✅ Tesla string concatenation test passed")
+        passed++
+    } else {
+        println("   ❌ Tesla string concatenation test failed: '" + concat1 + "', '" + concat2 + "', '" + concat3 + "'")
+    }
+    
+    return passed
+}
+
+// =============================================================================
+// TESLA ADVANCED STRING FUNCTION TESTS
+// =============================================================================
+
+func test_tesla_advanced_string_functions() -> int {
+    var passed = 0
+    
+    println("   Testing tesla_str_compare()...")
+    cmp1 := tesla_str_compare("abc", "abc")
+    cmp2 := tesla_str_compare("abc", "def")
+    cmp3 := tesla_str_compare("def", "abc")
+    if cmp1 == 0 && cmp2 < 0 && cmp3 > 0 {
+        println("   ✅ Tesla string comparison test passed")
+        passed++
+    } else {
+        println("   ❌ Tesla string comparison test failed: " + cmp1 + ", " + cmp2 + ", " + cmp3)
+    }
+    
+    println("   Testing tesla_str_equals()...")
+    eq1 := tesla_str_equals("Tesla", "Tesla")
+    eq2 := tesla_str_equals("Tesla", "Consciousness")
+    eq3 := tesla_str_equals("", "")
+    if eq1 && !eq2 && eq3 {
+        println("   ✅ Tesla string equality test passed")
+        passed++
+    } else {
+        println("   ❌ Tesla string equality test failed: " + eq1 + ", " + eq2 + ", " + eq3)
+    }
+    
+    println("   Testing tesla_str_contains()...")
+    cont1 := tesla_str_contains("Tesla Consciousness Computing", "Consciousness")
+    cont2 := tesla_str_contains("Tesla", "xyz")
+    cont3 := tesla_str_contains("Test", "")
+    if cont1 && !cont2 && cont3 {
+        println("   ✅ Tesla string contains test passed")
+        passed++
+    } else {
+        println("   ❌ Tesla string contains test failed: " + cont1 + ", " + cont2 + ", " + cont3)
+    }
+    
+    println("   Testing tesla_str_index_of()...")
+    idx1 := tesla_str_index_of("Tesla Consciousness", "Consciousness")
+    idx2 := tesla_str_index_of("Tesla", "xyz")
+    idx3 := tesla_str_index_of("Test", "")
+    if idx1 == 6 && idx2 == -1 && idx3 == 0 {
+        println("   ✅ Tesla string index of test passed")
+        passed++
+    } else {
+        println("   ❌ Tesla string index of test failed: " + idx1 + ", " + idx2 + ", " + idx3)
+    }
+    
+    println("   Testing tesla_str_trim()...")
+    trim1 := tesla_str_trim("  Tesla  ")
+    trim2 := tesla_str_trim("\t\nTest\r\n\t")
+    trim3 := tesla_str_trim("NoSpaces")
+    if trim1 == "Tesla" && trim2 == "Test" && trim3 == "NoSpaces" {
+        println("   ✅ Tesla string trim test passed")
+        passed++
+    } else {
+        println("   ❌ Tesla string trim test failed: '" + trim1 + "', '" + trim2 + "', '" + trim3 + "'")
+    }
+    
+    println("   Testing tesla_str_to_upper()...")
+    upper1 := tesla_str_to_upper("tesla")
+    upper2 := tesla_str_to_upper("Tesla Consciousness")
+    upper3 := tesla_str_to_upper("ALREADY UPPER")
+    if upper1 == "TESLA" && upper2 == "TESLA CONSCIOUSNESS" && upper3 == "ALREADY UPPER" {
+        println("   ✅ Tesla string to upper test passed")
+        passed++
+    } else {
+        println("   ❌ Tesla string to upper test failed: '" + upper1 + "', '" + upper2 + "', '" + upper3 + "'")
+    }
+    
+    println("   Testing tesla_str_to_lower()...")
+    lower1 := tesla_str_to_lower("TESLA")
+    lower2 := tesla_str_to_lower("Tesla Consciousness")
+    lower3 := tesla_str_to_lower("already lower")
+    if lower1 == "tesla" && lower2 == "tesla consciousness" && lower3 == "already lower" {
+        println("   ✅ Tesla string to lower test passed")
+        passed++
+    } else {
+        println("   ❌ Tesla string to lower test failed: '" + lower1 + "', '" + lower2 + "', '" + lower3 + "'")
+    }
+    
+    println("   Testing tesla_str_replace()...")
+    replace1 := tesla_str_replace("Tesla Computing", "Computing", "Consciousness")
+    replace2 := tesla_str_replace("Test Test Test", "Test", "Tesla")
+    replace3 := tesla_str_replace("No Match", "xyz", "abc")
+    if replace1 == "Tesla Consciousness" && replace2 == "Tesla Tesla Tesla" && replace3 == "No Match" {
+        println("   ✅ Tesla string replace test passed")
+        passed++
+    } else {
+        println("   ❌ Tesla string replace test failed: '" + replace1 + "', '" + replace2 + "', '" + replace3 + "'")
+    }
+    
+    return passed
+}
+
+// =============================================================================
+// TESLA STRING HASH FUNCTION TESTS
+// =============================================================================
+
+func test_tesla_string_hash_functions() -> int {
+    var passed = 0
+    
+    println("   Testing tesla_str_hash()...")
+    hash1 := tesla_str_hash("Tesla")
+    hash2 := tesla_str_hash("Tesla")  // Should be same
+    hash3 := tesla_str_hash("Consciousness")  // Should be different
+    hash_empty := tesla_str_hash("")
+    
+    if hash1 == hash2 && hash1 != hash3 && hash_empty == 0 && hash1 > 0 {
+        println("   ✅ Tesla string hash test passed")
+        passed++
+    } else {
+        println("   ❌ Tesla string hash test failed: " + hash1 + ", " + hash2 + ", " + hash3 + ", " + hash_empty)
+    }
+    
+    println("   Testing tesla_str_hash_equals()...")
+    hash_eq1 := tesla_str_hash_equals("Tesla", "Tesla")
+    hash_eq2 := tesla_str_hash_equals("Tesla", "Consciousness")
+    hash_eq3 := tesla_str_hash_equals("", "")
+    if hash_eq1 && !hash_eq2 && hash_eq3 {
+        println("   ✅ Tesla string hash equals test passed")
+        passed++
+    } else {
+        println("   ❌ Tesla string hash equals test failed: " + hash_eq1 + ", " + hash_eq2 + ", " + hash_eq3)
+    }
+    
+    return passed
+}
+
+// =============================================================================
+// TESLA STRING CONSCIOUSNESS INTEGRATION TESTS
+// =============================================================================
+
+func test_tesla_string_consciousness_integration() -> int {
+    var passed = 0
+    
+    println("   Testing tesla_string_utils_validate()...")
+    if tesla_string_utils_validate() {
+        println("   ✅ Tesla string validation test passed")
+        passed++
+    } else {
+        println("   ❌ Tesla string validation test failed")
+    }
+    
+    println("   Testing tesla_string_utils_get_metrics()...")
+    metrics := tesla_string_utils_get_metrics()
+    if metrics.module_name == "tesla_string_utils" && metrics.frequency > 0.0 {
+        println("   ✅ Tesla string metrics test passed")
+        passed++
+    } else {
+        println("   ❌ Tesla string metrics test failed")
+    }
+    
+    println("   Testing consciousness synchronization...")
+    if tesla_is_synchronized() {
+        println("   ✅ Tesla consciousness synchronization test passed")
+        passed++
+    } else {
+        println("   ❌ Tesla consciousness synchronization test failed")
+    }
+    
+    println("   Testing Tesla string debug output...")
+    tesla_string_utils_debug()
+    println("   ✅ Tesla string debug test passed")
+    passed++
+    
+    return passed
+}
+
+// =============================================================================
+// TESLA STRING SPLIT TEST (Advanced)
+// =============================================================================
+
+func test_tesla_string_split() {
+    println("   Testing tesla_str_split() advanced functionality...")
+    
+    parts1 := tesla_str_split("Tesla,Consciousness,Computing", ",")
+    parts2 := tesla_str_split("No delimiters here", ",")
+    parts3 := tesla_str_split("", ",")
+    
+    // Validate split results
+    if len(parts1) == 3 && parts1[0] == "Tesla" && parts1[1] == "Consciousness" && parts1[2] == "Computing" {
+        println("   ✅ Tesla string split with delimiters passed")
+    } else {
+        println("   ❌ Tesla string split with delimiters failed")
+    }
+    
+    if len(parts2) == 1 && parts2[0] == "No delimiters here" {
+        println("   ✅ Tesla string split no delimiters passed")
+    } else {
+        println("   ❌ Tesla string split no delimiters failed")
+    }
+    
+    if len(parts3) == 0 {
+        println("   ✅ Tesla string split empty string passed")
+    } else {
+        println("   ❌ Tesla string split empty string failed")
+    }
+}
