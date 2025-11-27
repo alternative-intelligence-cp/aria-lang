@@ -1,0 +1,38 @@
+Here is a comprehensive overview, language guide, and API documentation for Aria, based on the source code provided.Aria Language DocumentationAria is a statically compiled, dynamically typed programming language designed for high-performance applications. It features a "batteries-included" standard library with native support for Artificial Intelligence (tensors, neural nets), Web Servers (HTTP/WebSocket), Graphics (2D/3D/GUI), and low-level System programming.1. System ArchitectureAria operates as a compiled language that translates source code into x86-64 assembly, which is then assembled and linked into a native executable.Compiler PipelineFrontend (src/frontend/):Lexer: Tokenizes source code, handling keywords like func, var, class, and managed.Parser: A recursive descent parser builds an Abstract Syntax Tree (AST). It handles operator precedence and control flow structures.AST: Uses an arena allocator (src/frontend/arena.c) for high-performance memory management during compilation.Backend (src/backend/):Codegen: Generates NASM-syntax x86-64 assembly.Register Allocation: Uses Linear Scan Register Allocation to map variables to CPU registers (rbx, r12-r15, etc.), spilling to the stack when necessary.Build Process:The compiler generates an .asm file.NASM assembles it into an object file (.o).GCC links the object file with the Aria Runtime Library (libaria.a) and system libraries (-lpthread, -lm, -lX11, -lssh, etc.).Runtime Environment (src/runtime/)Value Representation: Aria uses NaN-Boxing (IEEE 754).Doubles: Stored directly.Integers: Stored in the lower 32 bits of a NaN.Pointers: Stored in the lower 48 bits of a NaN with specific tag bits for Objects, Strings, and Lists.Garbage Collection (src/runtime/gc.c):A Stop-The-World, Mark-and-Sweep collector.Uses conservative stack scanning (registers threads and scans stack memory for pointers).Includes a Bloom Filter to quickly reject non-heap pointers during the mark phase.Object System: Objects are dynamic Hash Maps (src/runtime/object.c) supporting string keys and any value type.2. Language GuideBasic SyntaxAria uses a C-like syntax with brace-enclosed blocks.VariablesJavaScriptvar x = 10;
+var name = "Aria";
+managed var ptr = new MyClass(); // 'managed' keyword explicitly denotes GC tracking intent
+FunctionsJavaScriptfunc add(a, b) {
+    return a + b;
+}
+Control FlowJavaScriptif (x > 5) {
+    print("Big");
+} else {
+    print("Small");
+}
+
+while (x > 0) {
+    x = x - 1;
+}
+
+// C-style For Loop
+for (var i = 0; i < 10; i = i + 1) {
+    if (i == 5) continue;
+    print(i);
+}
+Classes & ObjectsAria supports class-based OOP. Methods are defined inside the class.JavaScriptclass Dog {
+    func bark() {
+        println("Woof!");
+    }
+}
+
+var d = new Dog();
+d.bark();
+Ternary OperatorAria supports a Pythonic/Unique ternary syntax using is and ? or standard usage patterns depending on parser rules (the parser supports a standard ternary flow).JavaScript// Based on parser.c: NODE_TERNARY expects standard C-style ternary logic inside expressions
+var result = condition ? true_val : false_val;
+3. Standard Library APIAria's standard library is massive. Below is the documentation for the provided modules.Core & UtilitiesIO (io, std_io)print(fmt, ...): Print formatted output (supports %d, %f, %s).println(str): Print a string with a newline.input(): Read a line of text from stdin.read_file(path): Read an entire file into a string.Strings (string_utils)str_len(s): Returns length of string.str_sub(s, start, len): Returns a substring.str_concat(a, b): Concatenates two strings.str_to_int(s): Parses string to integer.int_to_str(i): Converts integer to string.Data Structures (dataStructures)list_new(): Creates a new dynamic list.list_push(list, item): Adds an item to the list.list_get(list, index): Retrieves item at index.list_set(list, index, val): Sets item at index.Algorithms (algorithms)algo_sort(list): Quicksorts a list in-place.algo_binary_search(list, target): Returns index of target or -1.Artificial Intelligence (ai)Aria includes a native Autograd engine and Neural Network primitives.Tensors:tensor_new(rows, cols, requires_grad): Creates a new tensor with Xavier initialization.tensor_matmul(a, b): Matrix multiplication ($A \times B$).tensor_add(a, b), tensor_sub(a, b): Element-wise arithmetic.tensor_relu(t): Applies ReLU activation.tensor_softmax(t): Applies Softmax.Training:tensor_backward(loss): Performs backpropagation (calculates gradients).tensor_step_sgd(t, lr): Updates tensor weights using SGD.Models:ai_self_attention(Q, K, V): Computes $Softmax(\frac{QK^T}{\sqrt{d}})V$.ai_mamba_scan(u, A, B, C): Runs a Mamba/SSM selective scan kernel.Vector Database (HNSW):db_new(): Creates an in-memory vector database.db_insert(db, vec, payload): Inserts a vector with a string payload.db_query(db, query_vec): Finds the nearest neighbor.Networking & Web (web, network)HTTP & WebSocketsweb_listen(port): Starts a blocking HTTP server.web_listen_secure(port, cert, key): Starts an HTTPS/WSS server.web_get(path, handler), web_post(path, handler): Registers route handlers.web_ws_handler(handler): Registers a WebSocket message handler.web_use(middleware): Adds global middleware.Low-Level Networknet_server_start(port): Opens a TCP socket.net_accept(server_sock): Accepts a client.net_read(sock): Reads data (string).net_write(sock, str): Writes data.fetch_get(url): Simple HTTP GET client.System & OS (unix, linux, fs)Filesystem:fs_open(path, mode): Opens file ("r", "w", "a", "rw").fs_read_all(path): Reads full file content.fs_write_str(path, content): Writes string to file.fs_list_dir(path): Returns a list of filenames in a directory.fs_exists(path), fs_delete(path).Process:proc_exec(cmd): Runs a shell command.proc_fork(): Forks the process.proc_pid(): Returns current PID.Containerization:container_run(cmd, rootfs): Runs a command in an isolated container (namespaces for PID, Mount, UTS).container_limit_cpu(pid, shares): Sets cgroup CPU limits.Graphics & MultimediaWindowing (window)win_create(width, height, title): Opens an X11 window.win_next_event(): Returns the next event object (mousemove, keydown, etc.).2D Drawing (2d_drawing)draw_new(w, h): Creates a pixel buffer.draw_pixel(ctx, x, y, r, g, b): Sets a pixel color.draw_save(ctx, filename): Saves buffer to a generic format (PPM).3D Rendering (3d_drawing)r3d_init(w, h): Creates a 3D render context with Z-buffer.r3d_triangle(ctx, v1, v2, v3, color): Rasterizes a triangle with perspective correction and depth testing.Audio (sound)sound_init(): Initializes ALSA audio engine.sound_play_tone(freq, ms): Plays a synthesized sine wave.Specialized ModulesDatabase (database): A persistent Key-Value store (append-only log structure).db_open(path), db_put(db, key, val), db_get(db, key).FFI (ffi):ffi_open(lib_path): Loads a shared library (.so).ffi_sym(lib, name): Gets a function symbol.ffi_call(func, args_list, arg_count): Calls a C function dynamically.Logic (quinary, nonary):Implements non-binary logic systems (5-state and 9-state logic) handling degrees of truth/falsehood (e.g., PROB_TRUE, MAYBE_FALSE).SSH (ssh):ssh_connect_sess(host, user, port): Connects to SSH server.ssh_run(sess, cmd): Executes command over SSH.4. Getting StartedPrerequisitesYou need GCC, Make, NASM, and the development libraries for X11, ALSA, OpenSSL, and SSH.Bashsudo apt install build-essential nasm libx11-dev libasound2-dev libssh-dev libssl-dev
+Building the CompilerNavigate to the root directory and run:Bashmake
+This produces the compiler binary at bin/aria_compiler and the runtime library at lib/libaria.a.Running a ProgramCreate a file named hello.aria:JavaScriptfunc main() {
+    println("Hello, Aria!");
+}
+Compile and run it:Bash./bin/aria_compiler hello.aria
+./hello
