@@ -1,0 +1,2 @@
+/usr/bin/ar qc libaria_detection.a CMakeFiles/aria_detection.dir/assembler_detection.cpp.o
+/usr/bin/ranlib libaria_detection.a

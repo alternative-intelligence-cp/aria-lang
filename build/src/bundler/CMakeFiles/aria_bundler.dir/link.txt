@@ -1,0 +1,2 @@
+/usr/bin/ar qc libaria_bundler.a CMakeFiles/aria_bundler.dir/tool_bundler.cpp.o
+/usr/bin/ranlib libaria_bundler.a

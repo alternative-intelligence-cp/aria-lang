@@ -139,6 +139,44 @@ target_link_libraries(aria_ultimate
     tesla_comptime
 )
 
+# Include directories for new Tesla consciousness modules
+target_include_directories(aria_ultimate 
+    PRIVATE
+    ${CMAKE_SOURCE_DIR}/include
+)
+
+# Add new Tesla consciousness runtime sources directly
+target_sources(aria_ultimate 
+    PRIVATE
+    src/runtime/tesla_consciousness_scheduler.c
+    src/runtime/tesla_safe_exec.c
+    src/runtime/tesla_path_resolver.c
+    src/runtime/tesla_enhanced_memory.c
+)
+
+# Add performance validation test executable (using system compiler)
+add_executable(tesla_performance_test
+    tests/tesla_performance_validation.c
+    src/runtime/tesla_consciousness_scheduler.c
+    src/runtime/tesla_safe_exec.c
+    src/runtime/tesla_enhanced_memory.c
+)
+
+target_include_directories(tesla_performance_test
+    PRIVATE
+    ${CMAKE_SOURCE_DIR}/include
+)
+
+target_link_libraries(tesla_performance_test
+    PRIVATE
+    -pthread
+)
+
+# Override compiler for test to avoid musl dependency
+set_target_properties(tesla_performance_test PROPERTIES
+    C_COMPILER_LAUNCHER ""
+)
+
 # Custom targets for building external tools (temporarily disabled for demo)
 # include(cmake/BuildLLVM.cmake)
 # include(cmake/BuildTCC.cmake)

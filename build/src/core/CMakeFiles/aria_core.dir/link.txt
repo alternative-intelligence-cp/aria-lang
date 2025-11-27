@@ -1,0 +1,2 @@
+/usr/bin/ar qc libaria_core.a CMakeFiles/aria_core.dir/aria_compiler.cpp.o
+/usr/bin/ranlib libaria_core.a

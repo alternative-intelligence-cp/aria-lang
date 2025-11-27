@@ -1,0 +1,2 @@
+/usr/bin/ar qc libtesla_preprocessor.a CMakeFiles/tesla_preprocessor.dir/tesla_preprocessor.cpp.o CMakeFiles/tesla_preprocessor.dir/macro_engine.cpp.o CMakeFiles/tesla_preprocessor.dir/consciousness_directives.cpp.o
+/usr/bin/ranlib libtesla_preprocessor.a

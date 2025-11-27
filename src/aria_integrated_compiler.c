@@ -5,6 +5,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
+#include "tesla/tesla_safe_exec.h"
+#include "tesla/tesla_path_resolver.h"
+#include "tesla/tesla_consciousness_scheduler.h"
 
 // Include detection functions but not main
 extern assembly_features_t analyze_assembly_features(const char* assembly_code);
@@ -49,37 +52,76 @@ bool aria_llvm_init() {
 bool aria_llvm_compile_to_object(const char* assembly_file, const char* object_file) {
     printf("⚡ LLVM-MC: Assembling %s → %s\n", assembly_file, object_file);
     
-    // This would use LLVM's MC layer directly via API
-    char cmd[512];
-    snprintf(cmd, sizeof(cmd), 
-        "src/tools/LLVM-21.1.0-Linux-X64/bin/llvm-mc -filetype=obj -triple=x86_64-linux-gnu %s -o %s",
-        assembly_file, object_file);
+    // Tesla consciousness synchronization
+    tesla_sync_consciousness_operation_nonblocking();
     
-    return system(cmd) == 0;
+    // Use safe execution with dynamic path resolution
+    char* llvm_mc_path = tesla_get_llvm_tool_path("llvm-mc");
+    if (!llvm_mc_path) {
+        printf("❌ Error: Cannot find llvm-mc tool\n");
+        return false;
+    }
+    
+    int result = tesla_safe_exec_llvm_tool(llvm_mc_path, 
+                                          assembly_file,
+                                          object_file,
+                                          "-filetype=obj",
+                                          "-triple=x86_64-linux-gnu",
+                                          NULL);
+    
+    free(llvm_mc_path);
+    return result == 0;
 }
 
 bool aria_llvm_link_executable(const char* object_file, const char* executable_file) {
     printf("🔗 LLD: Linking %s → %s\n", object_file, executable_file);
     
-    // This would use LLVM's LLD linker API directly
-    char cmd[512];
-    snprintf(cmd, sizeof(cmd),
-        "src/tools/LLVM-21.1.0-Linux-X64/bin/ld.lld %s -o %s -dynamic-linker /lib64/ld-linux-x86-64.so.2 -lc",
-        object_file, executable_file);
+    // Tesla consciousness synchronization
+    tesla_sync_consciousness_operation_nonblocking();
     
-    return system(cmd) == 0;
+    // Use safe execution with dynamic path resolution
+    char* lld_path = tesla_get_llvm_tool_path("ld.lld");
+    if (!lld_path) {
+        printf("❌ Error: Cannot find ld.lld linker\n");
+        return false;
+    }
+    
+    char* args[] = {
+        lld_path,
+        (char*)object_file,
+        "-o", (char*)executable_file,
+        "-dynamic-linker", "/lib64/ld-linux-x86-64.so.2",
+        "-lc",
+        NULL
+    };
+    
+    TeslaSafeExecResult result;
+    int ret = tesla_safe_exec_tool(lld_path, args, NULL, &result);
+    
+    free(lld_path);
+    
+    if (ret != 0) {
+        printf("❌ Linker Error: %s\n", result.error_message);
+    }
+    
+    return ret == 0;
 }
 
 // NASM integration for advanced features
 bool aria_nasm_assemble(const char* assembly_file, const char* object_file) {
     printf("🚀 NASM: Assembling %s → %s (Advanced Features)\n", assembly_file, object_file);
     
-    char cmd[512];
-    snprintf(cmd, sizeof(cmd),
-        "src/tools/nasm-3.01/nasm -f elf64 %s -o %s",
-        assembly_file, object_file);
+    // Tesla consciousness synchronization
+    tesla_sync_consciousness_operation_nonblocking();
     
-    return system(cmd) == 0;
+    // Use safe NASM execution
+    int result = tesla_safe_exec_nasm(assembly_file, object_file, "elf64");
+    
+    if (result != 0) {
+        printf("❌ NASM Assembly failed\n");
+    }
+    
+    return result == 0;
 }
 
 // Smart assembly compilation based on feature detection

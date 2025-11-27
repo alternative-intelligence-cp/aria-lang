@@ -3,23 +3,26 @@
 # Runtime source files with Tesla Toybox integration
 set(RUNTIME_SOURCES
     header_extractor.cpp
-    tesla_runtime_core.cpp
-    tesla_memory_manager.cpp
-    tesla_consciousness_engine.cpp
+    bundler.c
+    gc.c
+    gc_shadow_stack.c
+    object.c
     tesla_toybox_integration.c
-    tesla_frequency_synchronizer.cpp
-    tesla_error_handler.cpp
+    tesla_consciousness_scheduler.c
+    tesla_safe_exec.c
+    tesla_path_resolver.c
+    tesla_enhanced_memory.c
 )
 
 # Tesla Runtime headers
 set(RUNTIME_HEADERS
     header_extractor.h
-    tesla_runtime_core.h
-    tesla_memory_manager.h
-    tesla_consciousness_engine.h
+    bundler.h
+    gc.h
     tesla_toybox_integration.h
-    tesla_frequency_synchronizer.h
-    tesla_error_handler.h
+    libaria_blob.h
+    nasm_blob.h
+    tcc_blob.h
 )
 
 # Create Tesla Runtime library with Toybox integration

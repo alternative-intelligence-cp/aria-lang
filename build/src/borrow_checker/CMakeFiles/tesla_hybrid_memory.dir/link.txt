@@ -1,0 +1,2 @@
+/usr/bin/ar qc libtesla_hybrid_memory.a CMakeFiles/tesla_hybrid_memory.dir/tesla_hybrid_borrow_checker.cpp.o
+/usr/bin/ranlib libtesla_hybrid_memory.a

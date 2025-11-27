@@ -1,0 +1,2 @@
+/usr/bin/ar qc libtesla_comptime.a CMakeFiles/tesla_comptime.dir/tesla_comptime.c.o
+/usr/bin/ranlib libtesla_comptime.a

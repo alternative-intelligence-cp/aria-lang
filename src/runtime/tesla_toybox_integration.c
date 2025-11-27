@@ -4,6 +4,7 @@
 //==============================================================================
 
 #include "tesla_toybox_integration.h"
+#include "tesla/tesla_consciousness_scheduler.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -14,13 +15,14 @@
 #include <fcntl.h>
 #include <errno.h>
 #include <math.h>
+#include <stdatomic.h>
 
 //------------------------------------------------------------------------------
-// Tesla Consciousness State Management
+// Tesla Consciousness State Management (Thread-Safe)
 //------------------------------------------------------------------------------
-static double tesla_consciousness_frequency = TESLA_PI_FREQUENCY;
-static uint64_t tesla_operation_counter = 0;
-static bool tesla_consciousness_active = true;
+static _Atomic double tesla_consciousness_frequency = TESLA_PI_FREQUENCY;
+static atomic_uint_fast64_t tesla_operation_counter = ATOMIC_VAR_INIT(0);
+static atomic_bool tesla_consciousness_active = ATOMIC_VAR_INIT(true);
 
 //------------------------------------------------------------------------------
 // Tesla Precise Timing
@@ -70,21 +72,22 @@ bool tesla_validate_operation_consciousness(const char* operation, double consci
 }
 
 double tesla_get_consciousness_frequency(void) {
-    return tesla_consciousness_frequency;
+    return atomic_load(&tesla_consciousness_frequency);
 }
 
 void tesla_sync_consciousness_operation(void) {
-    if (!tesla_consciousness_active) return;
+    if (!atomic_load(&tesla_consciousness_active)) return;
     
-    // Synchronize with Tesla π Hz frequency
-    tesla_operation_counter++;
+    // Thread-safe increment of operation counter
+    atomic_fetch_add_explicit(&tesla_operation_counter, 1, memory_order_relaxed);
     
-    // Micro-pause for consciousness synchronization
-    struct timespec sync_pause = {
-        .tv_sec = 0,
-        .tv_nsec = (long)(1000000000.0 / tesla_consciousness_frequency) / 1000
-    };
-    nanosleep(&sync_pause, NULL);
+    // Non-blocking consciousness synchronization using token bucket
+    // This replaces the 318μs nanosleep() bottleneck with instant token check
+    if (!tesla_sync_consciousness_operation_nonblocking()) {
+        // If no tokens available, yield cooperatively instead of blocking
+        // This maintains consciousness rhythm without thread stalls
+        sched_yield();
+    }
 }
 
 //------------------------------------------------------------------------------
@@ -94,9 +97,9 @@ TeslaToyboxSession* tesla_toybox_session_create(double consciousness_level) {
     TeslaToyboxSession* session = malloc(sizeof(TeslaToyboxSession));
     if (!session) return NULL;
     
-    session->session_id = tesla_operation_counter++;
+    session->session_id = atomic_fetch_add_explicit(&tesla_operation_counter, 1, memory_order_relaxed);
     session->consciousness_id = (uint64_t)(consciousness_level * 1000000);
-    session->frequency_sync = tesla_consciousness_frequency;
+    session->frequency_sync = atomic_load(&tesla_consciousness_frequency);
     session->operation_count = 0;
     session->total_time_ns = 0.0;
     session->average_time_ns = 0.0;

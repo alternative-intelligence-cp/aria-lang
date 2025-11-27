@@ -1,0 +1,2 @@
+/usr/bin/ar qc libtesla_csp_runtime.a CMakeFiles/tesla_csp_runtime.dir/tesla_csp_runtime.cpp.o CMakeFiles/tesla_csp_runtime.dir/tesla_channels.cpp.o
+/usr/bin/ranlib libtesla_csp_runtime.a

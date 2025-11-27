@@ -1,0 +1,2 @@
+/usr/bin/ar qc libaria_runtime.a CMakeFiles/aria_runtime.dir/header_extractor.cpp.o CMakeFiles/aria_runtime.dir/bundler.c.o CMakeFiles/aria_runtime.dir/gc.c.o CMakeFiles/aria_runtime.dir/gc_shadow_stack.c.o CMakeFiles/aria_runtime.dir/object.c.o CMakeFiles/aria_runtime.dir/tesla_toybox_integration.c.o CMakeFiles/aria_runtime.dir/tesla_consciousness_scheduler.c.o CMakeFiles/aria_runtime.dir/tesla_safe_exec.c.o CMakeFiles/aria_runtime.dir/tesla_path_resolver.c.o CMakeFiles/aria_runtime.dir/tesla_enhanced_memory.c.o
+/usr/bin/ranlib libaria_runtime.a

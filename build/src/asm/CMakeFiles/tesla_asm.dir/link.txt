@@ -1,0 +1,2 @@
+/usr/bin/ar cr libtesla_asm.a CMakeFiles/tesla_asm.dir/tesla_context_switch.S.o CMakeFiles/tesla_asm.dir/tesla_memory.S.o CMakeFiles/tesla_asm.dir/tesla_strings.S.o CMakeFiles/tesla_asm.dir/tesla_timing.S.o 
+/usr/bin/ranlib libtesla_asm.a
