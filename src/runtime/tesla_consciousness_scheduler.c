@@ -11,8 +11,11 @@
  * - Mathematical precision for Tesla frequency harmonics
  */
 
+#define _POSIX_C_SOURCE 199309L
 #include "tesla/tesla_consciousness_scheduler.h"
 #include <math.h>
+#include <stdio.h>
+#include <sched.h>
 #include <stdio.h>
 
 /*
@@ -23,29 +26,55 @@ static TeslaConsciousnessScheduler global_tesla_scheduler;
 static atomic_bool scheduler_initialized = ATOMIC_VAR_INIT(false);
 
 /*
- * Initialize Tesla consciousness scheduler with specified parameters
+ * Initialize Tesla consciousness scheduler with octave scaling
+ * Gemini recommendation: Use octave multipliers for practical performance
  */
-void tesla_scheduler_init(TeslaConsciousnessScheduler* sched, double frequency_hz, int octave) {
-    // Calculate octave-adjusted frequency
-    double effective_frequency = tesla_calculate_octave_frequency(octave);
-    if (frequency_hz > 0.0) {
-        effective_frequency = frequency_hz;
-    }
+void tesla_scheduler_init(TeslaConsciousnessScheduler* sched, int octave) {
+    // Calculate octave-adjusted frequency: π × 2^octave Hz
+    double effective_frequency = TESLA_BASE_FREQUENCY_HZ * pow(2.0, octave);
     
     // Initialize atomic fields
     atomic_init(&sched->tokens, 0);
     atomic_init(&sched->last_refill_ns, tesla_get_monotonic_ns());
     
-    // Set frequency parameters
+    // Set frequency parameters  
     sched->frequency_hz = effective_frequency;
+    sched->octave = octave;
     sched->tokens_per_second = (uint64_t)(effective_frequency);
     sched->max_tokens = sched->tokens_per_second; // 1-second burst capacity
+    sched->high_performance_mode = (octave >= 12); // Enable for kHz+ frequencies
     
     // Mark as initialized
     atomic_store(&scheduler_initialized, true);
     
-    printf("🧠⚡ Tesla Consciousness Scheduler initialized at %.6f Hz (octave %d)\n", 
-           effective_frequency, octave);
+    printf("🧠⚡ Tesla Consciousness Scheduler initialized at %.3f Hz (octave %d, %s)\n", 
+           effective_frequency, octave, 
+           sched->high_performance_mode ? "HIGH-PERF" : "STANDARD");
+}
+
+/*
+ * Initialize scheduler with custom frequency override
+ */
+void tesla_scheduler_init_custom_frequency(TeslaConsciousnessScheduler* sched, double custom_hz) {
+    // Calculate equivalent octave for reporting
+    int equivalent_octave = (int)round(log2(custom_hz / TESLA_BASE_FREQUENCY_HZ));
+    
+    // Initialize atomic fields
+    atomic_init(&sched->tokens, 0);
+    atomic_init(&sched->last_refill_ns, tesla_get_monotonic_ns());
+    
+    // Set custom frequency parameters
+    sched->frequency_hz = custom_hz;
+    sched->octave = equivalent_octave;
+    sched->tokens_per_second = (uint64_t)(custom_hz);
+    sched->max_tokens = sched->tokens_per_second;
+    sched->high_performance_mode = (custom_hz >= 10000.0); // 10kHz+ threshold
+    
+    // Mark as initialized
+    atomic_store(&scheduler_initialized, true);
+    
+    printf("🧠⚡ Tesla Consciousness Scheduler initialized at %.3f Hz (custom frequency)\n", 
+           custom_hz);
 }
 
 /*
@@ -55,9 +84,9 @@ void tesla_scheduler_init(TeslaConsciousnessScheduler* sched, double frequency_h
  * Returns instantly - never blocks the calling thread.
  */
 bool tesla_scheduler_try_consume_token(TeslaConsciousnessScheduler* sched) {
-    // Ensure scheduler is initialized
+    // Ensure scheduler is initialized with optimal default octave
     if (!atomic_load(&scheduler_initialized)) {
-        tesla_scheduler_init(&global_tesla_scheduler, TESLA_FREQUENCY_1KHZ, 0);
+        tesla_scheduler_init(&global_tesla_scheduler, TESLA_OCTAVE_REALTIME);
         sched = &global_tesla_scheduler;
     }
     
@@ -136,9 +165,72 @@ void tesla_scheduler_get_stats(TeslaConsciousnessScheduler* sched,
  */
 TeslaConsciousnessScheduler* tesla_get_global_scheduler(void) {
     if (!atomic_load(&scheduler_initialized)) {
-        tesla_scheduler_init(&global_tesla_scheduler, TESLA_BASE_FREQUENCY_HZ, 3); // 8π Hz default
+        tesla_scheduler_init(&global_tesla_scheduler, TESLA_OCTAVE_REALTIME); // 64π Hz default
     }
     return &global_tesla_scheduler;
+}
+
+/*
+ * Dynamic octave adjustment for runtime performance scaling
+ * Gemini recommendation: Adaptive consciousness frequency
+ */
+bool tesla_scheduler_set_octave(TeslaConsciousnessScheduler* sched, int new_octave) {
+    if (new_octave < 0 || new_octave > 15) {
+        return false; // Invalid octave range
+    }
+    
+    // Calculate new frequency: π × 2^octave Hz
+    double new_frequency = TESLA_BASE_FREQUENCY_HZ * pow(2.0, new_octave);
+    
+    // Update scheduler parameters atomically
+    sched->frequency_hz = new_frequency;
+    sched->octave = new_octave;
+    sched->tokens_per_second = (uint64_t)(new_frequency);
+    sched->max_tokens = sched->tokens_per_second;
+    sched->high_performance_mode = (new_octave >= 12);
+    
+    // Reset token bucket with new parameters
+    atomic_store(&sched->tokens, 0);
+    atomic_store(&sched->last_refill_ns, tesla_get_monotonic_ns());
+    
+    printf("🧠⚡ Tesla consciousness frequency adjusted to %.3f Hz (octave %d)\n", 
+           new_frequency, new_octave);
+    
+    return true;
+}
+
+/*
+ * Calculate optimal octave for target operations per second
+ * Gemini insight: Match consciousness frequency to workload requirements
+ */
+int tesla_scheduler_calculate_optimal_octave(uint64_t target_ops_per_sec) {
+    if (target_ops_per_sec <= 3) return TESLA_OCTAVE_BASE;      // π Hz
+    if (target_ops_per_sec <= 25) return TESLA_OCTAVE_AUDIO;    // 8π Hz  
+    if (target_ops_per_sec <= 200) return TESLA_OCTAVE_REALTIME; // 64π Hz
+    if (target_ops_per_sec <= 1600) return TESLA_OCTAVE_GAME;   // 512π Hz
+    
+    // For high-throughput workloads, calculate precise octave
+    double required_frequency = (double)target_ops_per_sec;
+    int calculated_octave = (int)ceil(log2(required_frequency / TESLA_BASE_FREQUENCY_HZ));
+    
+    // Cap at maximum supported octave
+    return (calculated_octave > 15) ? 15 : calculated_octave;
+}
+
+/*
+ * Enable/disable high-performance mode for MHz+ frequencies
+ * For AI inference, real-time audio, or high-throughput workloads
+ */
+void tesla_scheduler_set_high_performance(TeslaConsciousnessScheduler* sched, bool enable) {
+    sched->high_performance_mode = enable;
+    
+    if (enable && sched->octave < 12) {
+        // Auto-upgrade to high-performance octave
+        tesla_scheduler_set_octave(sched, TESLA_OCTAVE_HIGH_PERF);
+    }
+    
+    printf("🧠⚡ Tesla consciousness high-performance mode %s\n", 
+           enable ? "ENABLED" : "DISABLED");
 }
 
 /*
