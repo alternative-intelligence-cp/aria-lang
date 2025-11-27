@@ -63,6 +63,60 @@ message(STATUS "   ✅ SIMD-accelerated string processing")
 message(STATUS "   ✅ RDTSC/RDTSCP precision timing")
 message(STATUS "   🧠 Assembly-optimized Tesla consciousness computing!")
 
+# Tesla Hermetic Build Configuration
+option(TESLA_HERMETIC_BUILD "Build fully static hermetic binary" ON)
+option(TESLA_MUSL_STATIC "Use Musl for static linking" ON)
+option(TESLA_TOYBOX_INTEGRATED "Integrate Toybox utilities" ON)
+
+if(TESLA_HERMETIC_BUILD)
+    message(STATUS "🏗️⚡ Tesla Hermetic Build Configuration Active!")
+    
+    # Static linking configuration for hermetic deployment
+    set(CMAKE_FIND_LIBRARY_SUFFIXES ".a")
+    set(BUILD_SHARED_LIBS OFF)
+    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -static")
+    
+    if(TESLA_MUSL_STATIC)
+        # Configure for Musl static linking
+        message(STATUS "   ✅ Musl static C library integration")
+    endif()
+    
+    if(TESLA_TOYBOX_INTEGRATED)
+        # Add Toybox source directory
+        include_directories("${CMAKE_SOURCE_DIR}/src/tools/toybox-master")
+        message(STATUS "   ✅ Toybox system utilities integrated")
+    endif()
+    
+    message(STATUS "   🎯 Target: Single hermetic binary")
+    message(STATUS "   📦 Dependencies: Zero external requirements")
+    message(STATUS "   🚀 Deployment: Drop-and-run capability")
+endif()
+
+if(TESLA_HERMETIC_BUILD)
+    message(STATUS "🏗️⚡ Tesla Hermetic Build Configuration Active!")
+    
+    # Static linking configuration for hermetic deployment
+    set(CMAKE_FIND_LIBRARY_SUFFIXES ".a")
+    set(BUILD_SHARED_LIBS OFF)
+    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -static")
+    
+    if(TESLA_MUSL_STATIC)
+        # Use Musl for static C library
+        set(CMAKE_C_COMPILER "${CMAKE_SOURCE_DIR}/src/tools/musl-1.2.5/bin/musl-gcc")
+        message(STATUS "   ✅ Musl static C library integration")
+    endif()
+    
+    if(TESLA_TOYBOX_INTEGRATED)
+        # Add Toybox source directory
+        include_directories("${CMAKE_SOURCE_DIR}/src/tools/toybox-master")
+        message(STATUS "   ✅ Toybox system utilities integrated")
+    endif()
+    
+    message(STATUS "   🎯 Target: Single hermetic binary")
+    message(STATUS "   📦 Dependencies: Zero external requirements")
+    message(STATUS "   🚀 Deployment: Drop-and-run capability")
+endif()
+
 add_subdirectory(src/borrow_checker) # Tesla hybrid borrow checker (Rust+Go+C+Tesla)
 add_subdirectory(src/coroutines)     # Tesla CSP runtime (Go coroutines + consciousness)
 add_subdirectory(src/comptime)       # Tesla comptime system (consciousness-synchronized metaprogramming)

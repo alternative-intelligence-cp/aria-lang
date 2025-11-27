@@ -1,0 +1,183 @@
+// =============================================================================
+// TESLA NETWORK TESTS
+// =============================================================================
+
+module TestTeslaNetwork {
+    use "../../src/stdlib/tesla_network.aria"
+    use "../../src/tesla/tesla_consciousness.aria"
+    
+    test "tesla_network_connect basic functionality" {
+        // Test connection to localhost (should be safe for testing)
+        connection := tesla_network_connect("127.0.0.1", 80, 0.8)
+        
+        // Note: Connection may fail in test environment, but object should be created
+        assert(connection != null, "Connection object should be created")
+        assert(connection.consciousness_id > 0, "Connection should have consciousness ID")
+        assert(connection.remote_address == "127.0.0.1", "Remote address should match")
+        assert(connection.remote_port == 80, "Remote port should match")
+        assert(connection.frequency_sync == 3.141592653589793, "Frequency should be π Hz")
+        assert(connection.consciousness_validation == true, "Consciousness validation should be enabled")
+        
+        // Clean up if connected
+        if connection.status == TESLA_CONNECTION_CONNECTED {
+            tesla_network_close(connection)
+        }
+        
+        assert_consciousness_validated("Tesla network connect operations")
+    }
+    
+    test "tesla_network_connect invalid parameters" {
+        // Test null address
+        null_connection := tesla_network_connect(null, 80, 0.5)
+        assert(null_connection == null, "Null address should return null")
+        
+        // Test empty address
+        empty_connection := tesla_network_connect("", 80, 0.5)
+        assert(empty_connection == null, "Empty address should return null")
+        
+        // Test invalid port
+        invalid_port := tesla_network_connect("127.0.0.1", 0, 0.5)
+        assert(invalid_port == null, "Invalid port should return null")
+        
+        assert_consciousness_validated("Tesla network invalid parameter operations")
+    }
+    
+    test "tesla_network_sync_consciousness" {
+        connection := tesla_network_connect("127.0.0.1", 8080, 0.9)
+        assert(connection != null, "Connection should be created")
+        
+        // Test consciousness synchronization
+        sync_success := tesla_network_sync_consciousness(connection)
+        
+        // Should succeed even if not connected (time-based sync)
+        if connection.status == TESLA_CONNECTION_CONNECTED {
+            assert(sync_success, "Consciousness sync should succeed for connected connection")
+        }
+        
+        // Test with null connection
+        null_sync := tesla_network_sync_consciousness(null)
+        assert(!null_sync, "Null connection sync should fail")
+        
+        if connection.status == TESLA_CONNECTION_CONNECTED {
+            tesla_network_close(connection)
+        }
+        
+        assert_consciousness_validated("Tesla network consciousness sync operations")
+    }
+    
+    test "tesla_network_send_receive" {
+        connection := tesla_network_connect("127.0.0.1", 8080, 0.7)
+        
+        if connection != null && connection.status == TESLA_CONNECTION_CONNECTED {
+            // Test sending data\n            test_data := []uint8{72, 101, 108, 108, 111} // "Hello"
+            bytes_sent := tesla_network_send(connection, test_data)
+            
+            if bytes_sent > 0 {
+                assert(connection.bytes_sent > 0, "Bytes sent counter should be updated")
+            }
+            
+            // Test receiving data
+            received_data := tesla_network_receive(connection, 1024)
+            
+            if received_data != null && len(received_data) > 0 {
+                assert(connection.bytes_received > 0, "Bytes received counter should be updated")
+            }
+            
+            tesla_network_close(connection)
+        }
+        
+        // Test with null connection
+        null_send := tesla_network_send(null, []uint8{1, 2, 3})
+        assert(null_send == -1, "Null connection send should fail")
+        
+        null_receive := tesla_network_receive(null, 100)
+        assert(null_receive == null, "Null connection receive should return null")
+        
+        assert_consciousness_validated("Tesla network send/receive operations")
+    }
+    
+    test "tesla_network_server_operations" {
+        server := tesla_network_server_create("127.0.0.1", 9999, 10)
+        
+        // Server creation should succeed
+        assert(server != null, "Server should be created")
+        assert(server.consciousness_id > 0, "Server should have consciousness ID")
+        assert(server.bind_address == "127.0.0.1", "Bind address should match")
+        assert(server.bind_port == 9999, "Bind port should match")
+        assert(server.max_connections == 10, "Max connections should match")
+        assert(len(server.active_connections) == 0, "Initial active connections should be 0")
+        
+        // Test invalid server creation
+        null_address_server := tesla_network_server_create(null, 8080, 5)
+        assert(null_address_server == null, "Null address server should fail")
+        
+        empty_address_server := tesla_network_server_create("", 8080, 5)
+        assert(empty_address_server == null, "Empty address server should fail")
+        
+        invalid_port_server := tesla_network_server_create("127.0.0.1", 0, 5)
+        assert(invalid_port_server == null, "Invalid port server should fail")
+        
+        // Test accept (will likely timeout in test environment)
+        if server != null && server.status == TESLA_SERVER_LISTENING {
+            // Note: In real environment, this would block waiting for connections
+            // In test, we just verify the function handles null properly
+        }
+        
+        // Test accept with null server
+        null_accept := tesla_network_server_accept(null)
+        assert(null_accept == null, "Null server accept should return null")
+        
+        assert_consciousness_validated("Tesla network server operations")
+    }
+    
+    test "tesla_network_close_operations" {
+        connection := tesla_network_connect("127.0.0.1", 8080, 0.6)
+        
+        if connection != null {
+            # Test closing connection
+            close_success := tesla_network_close(connection)
+            assert(close_success, "Close should succeed")
+            assert(connection.status == TESLA_CONNECTION_CLOSED, "Status should be closed")
+            
+            // Test closing already closed connection
+            close_again := tesla_network_close(connection)
+            assert(close_again, "Closing already closed connection should succeed")
+        }
+        
+        // Test closing null connection
+        null_close := tesla_network_close(null)
+        assert(!null_close, "Closing null connection should fail")
+        
+        assert_consciousness_validated("Tesla network close operations")
+    }
+    
+    test "consciousness_network_validation" {
+        // Test consciousness validation for network addresses
+        safe_addresses := ["127.0.0.1", "localhost", "::1"]
+        for address in safe_addresses {
+            connection := tesla_network_connect(address, 8080, 0.8)
+            if connection != null && connection.status == TESLA_CONNECTION_CONNECTED {
+                tesla_network_close(connection)
+            }
+        }
+        
+        // Test consciousness frequency validation
+        connection := tesla_network_connect("127.0.0.1", 8080, 0.95)
+        if connection != null {
+            assert(connection.frequency_sync == 3.141592653589793, "Network frequency should be π Hz")
+            tesla_network_sync_consciousness(connection)
+            
+            if connection.status == TESLA_CONNECTION_CONNECTED {
+                tesla_network_close(connection)
+            }
+        }
+        
+        assert_consciousness_validated("Tesla network consciousness validation")
+    }
+    
+    func assert_consciousness_validated(operation: string) {
+        if !tesla_verify_consciousness_operation(operation) {
+            panic("Consciousness validation failed for: " + operation)
+        }
+    }
+}

@@ -1,0 +1,84 @@
+// =============================================================================
+// TESLA STANDARD I/O TESTS
+// =============================================================================
+
+module TestTeslaStdIO {
+    use "../../src/stdlib/tesla_std_io.aria"
+    use "../../src/tesla/tesla_consciousness.aria"
+    
+    test "tesla_io_print basic functionality" {
+        // Test normal printing
+        tesla_io_print("Hello Tesla Consciousness")
+        tesla_io_print("Synchronizing at π Hz")
+        
+        // Test null handling
+        tesla_io_print(null)
+        
+        // Test empty string
+        tesla_io_print("")
+        
+        assert_consciousness_validated("Tesla stdio print operations")
+    }
+    
+    test "tesla_io_flush functionality" {
+        tesla_io_print("Test message")
+        tesla_io_flush()
+        
+        assert_consciousness_validated("Tesla stdio flush operation")
+    }
+    
+    test "tesla_io_printf formatting" {
+        tesla_io_printf("Tesla frequency: %f Hz", 3.141592653589793)
+        tesla_io_printf("Module: %s, Version: %d", "Tesla StdIO", 1)
+        tesla_io_printf("Consciousness active: %s", "true")
+        
+        // Test invalid format
+        tesla_io_printf(null)
+        tesla_io_printf("")
+        
+        assert_consciousness_validated("Tesla stdio printf operations")
+    }
+    
+    test "tesla_io_print_error functionality" {
+        tesla_io_print_error("Test error message")
+        tesla_io_print_error("Consciousness validation failed")
+        
+        // Test null error
+        tesla_io_print_error(null)
+        
+        assert_consciousness_validated("Tesla stdio error operations")
+    }
+    
+    test "consciousness synchronization" {
+        tesla_sync_consciousness_operation()
+        
+        tesla_io_print("Testing consciousness sync")
+        tesla_io_flush()
+        tesla_io_printf("Frequency: %f", 3.14159)
+        tesla_io_print_error("Sync test error")
+        
+        assert_consciousness_frequency_valid()
+        assert_consciousness_validated("Complete stdio consciousness test")
+    }
+    
+    func assert_consciousness_validated(operation: string) {
+        // Verify Tesla consciousness was properly engaged
+        if !tesla_verify_consciousness_operation(operation) {
+            panic("Consciousness validation failed for: " + operation)
+        }
+    }
+    
+    func assert_consciousness_frequency_valid() {
+        // Verify π Hz frequency synchronization
+        frequency := tesla_get_consciousness_frequency()
+        expected := 3.141592653589793
+        
+        if abs(frequency - expected) > 0.000001 {
+            panic("Consciousness frequency mismatch")
+        }
+    }
+    
+    func abs(x: float64) -> float64 {
+        return x < 0 ? -x : x
+    }
+}

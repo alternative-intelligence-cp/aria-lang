@@ -1,0 +1,108 @@
+// =============================================================================
+// TESLA GAMEPAD WITH CONSCIOUSNESS SYNCHRONIZATION
+// =============================================================================
+
+// Tesla consciousness gamepad state
+struct TeslaGamepadState {
+    gamepad_id: uint64
+    consciousness_id: uint64
+    connected: bool
+    gamepad_type: TeslaGamepadType
+    buttons: [16]bool  // Support for up to 16 buttons
+    left_stick_x: float64
+    left_stick_y: float64
+    right_stick_x: float64
+    right_stick_y: float64
+    left_trigger: float64
+    right_trigger: float64
+    consciousness_validation: bool
+    frequency_sync: float64
+}
+
+enum TeslaGamepadType {
+    TESLA_GAMEPAD_XBOX,
+    TESLA_GAMEPAD_PLAYSTATION,
+    TESLA_GAMEPAD_NINTENDO,
+    TESLA_GAMEPAD_CONSCIOUSNESS_ENHANCED
+}
+
+enum TeslaGamepadButton {
+    TESLA_GAMEPAD_A,
+    TESLA_GAMEPAD_B,
+    TESLA_GAMEPAD_X,
+    TESLA_GAMEPAD_Y,
+    TESLA_GAMEPAD_LEFT_BUMPER,
+    TESLA_GAMEPAD_RIGHT_BUMPER,
+    TESLA_GAMEPAD_START,
+    TESLA_GAMEPAD_SELECT,
+    TESLA_GAMEPAD_CONSCIOUSNESS
+}
+
+// Tesla consciousness gamepad initialization
+func tesla_gamepad_initialize(gamepad_index: uint32, consciousness_level: float64) -> TeslaGamepadState {
+    tesla_sync_consciousness_operation()
+    
+    gamepad := new TeslaGamepadState
+    gamepad.consciousness_id = tesla_generate_consciousness_id()
+    gamepad.gamepad_id = tesla_generate_gamepad_id()
+    gamepad.connected = false
+    gamepad.gamepad_type = TESLA_GAMEPAD_CONSCIOUSNESS_ENHANCED
+    gamepad.consciousness_validation = (consciousness_level > 0.4)
+    gamepad.frequency_sync = 3.141592653589793 // π Hz
+    
+    // Initialize analog sticks to center
+    gamepad.left_stick_x = 0.0
+    gamepad.left_stick_y = 0.0
+    gamepad.right_stick_x = 0.0
+    gamepad.right_stick_y = 0.0
+    gamepad.left_trigger = 0.0
+    gamepad.right_trigger = 0.0
+    
+    // Initialize all buttons as not pressed
+    for i := 0; i < 16; i++ {
+        gamepad.buttons[i] = false
+    }
+    
+    tesla_consciousness_log("Tesla Gamepad: Initialized gamepad " + gamepad_index + " with consciousness level " + consciousness_level)
+    return gamepad
+}
+
+func tesla_gamepad_is_button_pressed(gamepad: TeslaGamepadState, button: TeslaGamepadButton) -> bool {
+    tesla_sync_consciousness_operation()
+    
+    if gamepad == null {
+        tesla_consciousness_error("Tesla Gamepad button: Null gamepad state")
+        return false
+    }
+    
+    if !gamepad.connected {
+        return false
+    }
+    
+    button_index := uint32(button)
+    if button_index >= 16 {
+        tesla_consciousness_error("Tesla Gamepad: Invalid button index")
+        return false
+    }
+    
+    return gamepad.buttons[button_index]
+}
+
+func tesla_gamepad_get_stick_position(gamepad: TeslaGamepadState, stick: string) -> (float64, float64) {
+    tesla_sync_consciousness_operation()
+    
+    if gamepad == null {
+        tesla_consciousness_error("Tesla Gamepad stick: Null gamepad state")
+        return 0.0, 0.0
+    }
+    
+    switch stick {
+    case "left":
+        return gamepad.left_stick_x, gamepad.left_stick_y
+    case "right":
+        return gamepad.right_stick_x, gamepad.right_stick_y
+    default:
+        tesla_consciousness_error("Tesla Gamepad: Invalid stick identifier")
+        return 0.0, 0.0
+    }
+}

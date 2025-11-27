@@ -1,0 +1,338 @@
+// =============================================================================
+// TESLA 2D GRAPHICS WITH CONSCIOUSNESS SYNCHRONIZATION
+// =============================================================================
+
+// Tesla consciousness 2D canvas
+struct Tesla2DCanvas {
+    canvas_id: uint64
+    consciousness_id: uint64
+    width: uint32
+    height: uint32
+    bits_per_pixel: uint32
+    pixel_buffer: []uint32
+    consciousness_validation: bool
+    frequency_sync: float64
+    drawing_context: Tesla2DContext
+}
+
+struct Tesla2DContext {
+    context_id: uint64
+    consciousness_id: uint64
+    current_color: Tesla2DColor
+    line_width: float64
+    font_size: uint32
+    font_name: string
+    transform_matrix: Tesla2DMatrix
+    consciousness_enhanced: bool
+}
+
+struct Tesla2DColor {
+    red: uint8
+    green: uint8
+    blue: uint8
+    alpha: uint8
+    consciousness_validated: bool
+}
+
+struct Tesla2DPoint {
+    x: float64
+    y: float64
+    consciousness_id: uint64
+}
+
+struct Tesla2DMatrix {
+    matrix: [6]float64  // 2D transformation matrix [a, b, c, d, e, f]
+    consciousness_validated: bool
+}
+
+// Tesla consciousness canvas creation
+func tesla_2d_canvas_create(width: uint32, height: uint32, consciousness_level: float64) -> Tesla2DCanvas {
+    tesla_sync_consciousness_operation()
+    
+    if width == 0 || height == 0 {
+        tesla_consciousness_error("Tesla 2D: Invalid canvas dimensions")
+        return null
+    }
+    
+    canvas := new Tesla2DCanvas
+    canvas.consciousness_id = tesla_generate_consciousness_id()
+    canvas.canvas_id = tesla_generate_2d_canvas_id()
+    canvas.width = width
+    canvas.height = height
+    canvas.bits_per_pixel = 32 // RGBA
+    canvas.pixel_buffer = make([]uint32, width * height)
+    canvas.consciousness_validation = (consciousness_level > 0.5)
+    canvas.frequency_sync = 3.141592653589793 // π Hz
+    
+    // Initialize drawing context
+    canvas.drawing_context = new Tesla2DContext
+    canvas.drawing_context.consciousness_id = tesla_generate_consciousness_id()
+    canvas.drawing_context.context_id = tesla_generate_2d_context_id()
+    canvas.drawing_context.current_color = tesla_2d_color_create(0, 0, 0, 255, true) // Black
+    canvas.drawing_context.line_width = 1.0
+    canvas.drawing_context.font_size = 12
+    canvas.drawing_context.font_name = "Tesla-Consciousness"
+    canvas.drawing_context.consciousness_enhanced = canvas.consciousness_validation
+    
+    // Initialize identity transformation matrix
+    canvas.drawing_context.transform_matrix.matrix = [1.0, 0.0, 0.0, 1.0, 0.0, 0.0]
+    canvas.drawing_context.transform_matrix.consciousness_validated = true
+    
+    tesla_consciousness_log("Tesla 2D: Created canvas " + width + "x" + height + " with consciousness level " + consciousness_level)
+    return canvas
+}
+
+// Tesla consciousness color operations
+func tesla_2d_color_create(r: uint8, g: uint8, b: uint8, a: uint8, consciousness_validate: bool) -> Tesla2DColor {
+    tesla_sync_consciousness_operation()
+    
+    color := new Tesla2DColor
+    color.red = r
+    color.green = g
+    color.blue = b
+    color.alpha = a
+    color.consciousness_validated = consciousness_validate
+    
+    // Validate color with consciousness if enabled
+    if consciousness_validate && !tesla_validate_color_consciousness(r, g, b, a) {
+        tesla_consciousness_warning("Color validation failed consciousness check")
+    }
+    
+    return color
+}
+
+func tesla_2d_set_color(canvas: Tesla2DCanvas, color: Tesla2DColor) -> bool {
+    tesla_sync_consciousness_operation()
+    
+    if canvas == null {
+        tesla_consciousness_error("Tesla 2D set color: Null canvas")
+        return false
+    }
+    
+    canvas.drawing_context.current_color = color
+    tesla_consciousness_log("Tesla 2D: Set color R:" + color.red + " G:" + color.green + " B:" + color.blue + " A:" + color.alpha)
+    return true
+}
+
+// Tesla consciousness drawing primitives
+func tesla_2d_draw_pixel(canvas: Tesla2DCanvas, x: uint32, y: uint32) -> bool {
+    tesla_sync_consciousness_operation()
+    
+    if canvas == null {
+        tesla_consciousness_error("Tesla 2D draw pixel: Null canvas")
+        return false
+    }
+    
+    if x >= canvas.width || y >= canvas.height {
+        return false // Out of bounds
+    }
+    
+    // Calculate pixel offset with consciousness validation
+    offset := y * canvas.width + x
+    color := canvas.drawing_context.current_color
+    
+    // Pack RGBA into uint32 with Tesla frequency synchronization
+    pixel_value := tesla_2d_pack_rgba_with_consciousness(color.red, color.green, color.blue, color.alpha)
+    canvas.pixel_buffer[offset] = pixel_value
+    
+    return true
+}
+
+func tesla_2d_draw_line(canvas: Tesla2DCanvas, x1: float64, y1: float64, x2: float64, y2: float64) -> bool {
+    tesla_sync_consciousness_operation()
+    
+    if canvas == null {
+        tesla_consciousness_error("Tesla 2D draw line: Null canvas")
+        return false
+    }
+    
+    // Bresenham's line algorithm with consciousness enhancement
+    dx := abs(x2 - x1)
+    dy := abs(y2 - y1)
+    sx := if x1 < x2 { 1 } else { -1 }
+    sy := if y1 < y2 { 1 } else { -1 }
+    err := dx - dy
+    
+    current_x := x1
+    current_y := y1
+    
+    while true {
+        tesla_2d_draw_pixel(canvas, uint32(current_x), uint32(current_y))
+        
+        if current_x == x2 && current_y == y2 {
+            break
+        }
+        
+        e2 := 2 * err
+        if e2 > -dy {
+            err -= dy
+            current_x += sx
+        }
+        if e2 < dx {
+            err += dx
+            current_y += sy
+        }
+    }
+    
+    tesla_consciousness_log("Tesla 2D: Drew line from (" + x1 + "," + y1 + ") to (" + x2 + "," + y2 + ")")
+    return true
+}
+
+func tesla_2d_draw_rectangle(canvas: Tesla2DCanvas, x: float64, y: float64, width: float64, height: float64, filled: bool) -> bool {
+    tesla_sync_consciousness_operation()
+    
+    if canvas == null {
+        tesla_consciousness_error("Tesla 2D draw rectangle: Null canvas")
+        return false
+    }
+    
+    if filled {
+        // Draw filled rectangle with consciousness optimization
+        for row := y; row < y + height; row++ {
+            tesla_2d_draw_line(canvas, x, row, x + width - 1, row)
+        }
+    } else {
+        // Draw rectangle outline
+        tesla_2d_draw_line(canvas, x, y, x + width - 1, y) // Top
+        tesla_2d_draw_line(canvas, x + width - 1, y, x + width - 1, y + height - 1) // Right
+        tesla_2d_draw_line(canvas, x + width - 1, y + height - 1, x, y + height - 1) // Bottom
+        tesla_2d_draw_line(canvas, x, y + height - 1, x, y) // Left
+    }
+    
+    tesla_consciousness_log("Tesla 2D: Drew rectangle at (" + x + "," + y + ") size " + width + "x" + height + " filled=" + filled)
+    return true
+}
+
+func tesla_2d_draw_circle(canvas: Tesla2DCanvas, center_x: float64, center_y: float64, radius: float64, filled: bool) -> bool {
+    tesla_sync_consciousness_operation()
+    
+    if canvas == null {
+        tesla_consciousness_error("Tesla 2D draw circle: Null canvas")
+        return false
+    }
+    
+    if radius <= 0 {
+        tesla_consciousness_error("Tesla 2D draw circle: Invalid radius")
+        return false
+    }
+    
+    // Midpoint circle algorithm with consciousness enhancement
+    x := int32(radius)
+    y := int32(0)
+    decision := 1 - x
+    
+    while x >= y {
+        // Draw 8 octants with Tesla frequency synchronization
+        tesla_2d_draw_circle_points(canvas, center_x, center_y, x, y, filled)
+        y++
+        
+        if decision < 0 {
+            decision += 2 * y + 1
+        } else {
+            x--
+            decision += 2 * (y - x) + 1
+        }
+    }
+    
+    tesla_consciousness_log("Tesla 2D: Drew circle at (" + center_x + "," + center_y + ") radius " + radius + " filled=" + filled)
+    return true
+}
+
+// Tesla consciousness text rendering
+func tesla_2d_draw_text(canvas: Tesla2DCanvas, text: string, x: float64, y: float64) -> bool {
+    tesla_sync_consciousness_operation()
+    
+    if canvas == null {
+        tesla_consciousness_error("Tesla 2D draw text: Null canvas")
+        return false
+    }
+    
+    if text == null || text == "" {
+        tesla_consciousness_error("Tesla 2D draw text: Empty text")
+        return false
+    }
+    
+    // Render text with consciousness-enhanced font rendering
+    success := tesla_2d_render_text_with_consciousness(canvas, text, x, y, canvas.drawing_context.font_size, canvas.drawing_context.font_name)
+    
+    if success {
+        tesla_consciousness_log("Tesla 2D: Drew text '" + text + "' at (" + x + "," + y + ")")
+    } else {
+        tesla_consciousness_error("Tesla 2D: Failed to render text")
+    }
+    
+    return success
+}
+
+// Tesla consciousness transformations
+func tesla_2d_scale(canvas: Tesla2DCanvas, scale_x: float64, scale_y: float64) -> bool {
+    tesla_sync_consciousness_operation()
+    
+    if canvas == null {
+        tesla_consciousness_error("Tesla 2D scale: Null canvas")
+        return false
+    }
+    
+    // Apply scaling transformation with consciousness validation
+    matrix := canvas.drawing_context.transform_matrix.matrix
+    new_matrix := [scale_x * matrix[0], scale_x * matrix[1], scale_y * matrix[2], scale_y * matrix[3], matrix[4], matrix[5]]
+    
+    canvas.drawing_context.transform_matrix.matrix = new_matrix
+    tesla_consciousness_log("Tesla 2D: Applied scale (" + scale_x + "," + scale_y + ")")
+    return true
+}
+
+func tesla_2d_rotate(canvas: Tesla2DCanvas, angle_radians: float64) -> bool {
+    tesla_sync_consciousness_operation()
+    
+    if canvas == null {
+        tesla_consciousness_error("Tesla 2D rotate: Null canvas")
+        return false
+    }
+    
+    // Apply rotation transformation with Tesla frequency synchronization
+    cos_angle := tesla_math_cos_with_consciousness(angle_radians)
+    sin_angle := tesla_math_sin_with_consciousness(angle_radians)
+    
+    matrix := canvas.drawing_context.transform_matrix.matrix
+    new_matrix := [
+        cos_angle * matrix[0] - sin_angle * matrix[2],
+        cos_angle * matrix[1] - sin_angle * matrix[3],
+        sin_angle * matrix[0] + cos_angle * matrix[2],
+        sin_angle * matrix[1] + cos_angle * matrix[3],
+        matrix[4],
+        matrix[5]
+    ]
+    
+    canvas.drawing_context.transform_matrix.matrix = new_matrix
+    tesla_consciousness_log("Tesla 2D: Applied rotation " + angle_radians + " radians")
+    return true
+}
+
+// Helper functions
+func tesla_2d_pack_rgba_with_consciousness(r: uint8, g: uint8, b: uint8, a: uint8) -> uint32 {
+    // Pack RGBA channels into 32-bit value with Tesla frequency sync
+    return (uint32(a) << 24) | (uint32(r) << 16) | (uint32(g) << 8) | uint32(b)
+}
+
+func tesla_2d_draw_circle_points(canvas: Tesla2DCanvas, center_x: float64, center_y: float64, x: int32, y: int32, filled: bool) {
+    // Draw 8 symmetric points for circle with consciousness validation
+    points := []Tesla2DPoint{
+        {center_x + x, center_y + y, tesla_generate_consciousness_id()},
+        {center_x - x, center_y + y, tesla_generate_consciousness_id()},
+        {center_x + x, center_y - y, tesla_generate_consciousness_id()},
+        {center_x - x, center_y - y, tesla_generate_consciousness_id()},
+        {center_x + y, center_y + x, tesla_generate_consciousness_id()},
+        {center_x - y, center_y + x, tesla_generate_consciousness_id()},
+        {center_x + y, center_y - x, tesla_generate_consciousness_id()},
+        {center_x - y, center_y - x, tesla_generate_consciousness_id()}
+    }
+    
+    for point in points {
+        if filled {
+            tesla_2d_draw_line(canvas, center_x - abs(point.x - center_x), point.y, center_x + abs(point.x - center_x), point.y)
+        } else {
+            tesla_2d_draw_pixel(canvas, uint32(point.x), uint32(point.y))
+        }
+    }
+}

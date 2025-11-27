@@ -1,0 +1,190 @@
+// =============================================================================
+// TESLA PROCESS TESTS
+// =============================================================================
+
+module TestTeslaProcesses {
+    use "../../src/stdlib/tesla_processes.aria"
+    use "../../src/tesla/tesla_consciousness.aria"
+    
+    test "tesla_process_execute basic functionality" {
+        // Test simple command execution
+        process := tesla_process_execute("echo 'Tesla Consciousness Test'")
+        assert(process != null, "Process should be created")
+        assert(process.pid > 0, "Process should have valid PID")
+        assert(process.command == "echo 'Tesla Consciousness Test'", "Command should match")
+        assert(process.consciousness_id > 0, "Process should have consciousness ID")
+        assert(process.status == TESLA_PROCESS_RUNNING, "Process should be running")
+        
+        // Wait for completion
+        exit_code := tesla_process_wait(process)
+        assert(exit_code == 0, "Echo command should succeed")
+        assert(process.status == TESLA_PROCESS_COMPLETED, "Process should be completed")
+        
+        assert_consciousness_validated("Tesla process execute operations")
+    }
+    
+    test "tesla_process_execute invalid commands" {
+        // Test null command
+        null_process := tesla_process_execute(null)
+        assert(null_process == null, "Null command should return null")
+        
+        // Test empty command
+        empty_process := tesla_process_execute("")
+        assert(empty_process == null, "Empty command should return null")
+        
+        // Test invalid command
+        invalid_process := tesla_process_execute("/tesla/nonexistent/command")
+        assert(invalid_process != null, "Invalid process should still be created")
+        assert(invalid_process.status == TESLA_PROCESS_FAILED, "Invalid process should fail")
+        
+        assert_consciousness_validated("Tesla process invalid command operations")
+    }
+    
+    test "tesla_process_wait functionality" {
+        // Test successful command
+        process := tesla_process_execute("true")
+        assert(process != null, "Process should be created")
+        
+        exit_code := tesla_process_wait(process)
+        assert(exit_code == 0, "True command should succeed")
+        assert(process.status == TESLA_PROCESS_COMPLETED, "Process should be completed")
+        
+        // Test failing command
+        fail_process := tesla_process_execute("false")
+        assert(fail_process != null, "Fail process should be created")
+        
+        fail_exit_code := tesla_process_wait(fail_process)
+        assert(fail_exit_code != 0, "False command should fail")
+        assert(fail_process.status == TESLA_PROCESS_FAILED, "Process should be failed")
+        
+        // Test waiting on null process
+        null_wait := tesla_process_wait(null)
+        assert(null_wait == -1, "Waiting on null process should return -1")
+        
+        assert_consciousness_validated("Tesla process wait operations")
+    }
+    
+    test "tesla_process_terminate functionality" {
+        // Test terminating a long-running process
+        process := tesla_process_execute("sleep 10")
+        assert(process != null, "Process should be created")
+        assert(process.status == TESLA_PROCESS_RUNNING, "Process should be running")
+        
+        // Verify process is running
+        is_running := tesla_process_is_running(process)
+        assert(is_running, "Process should be running")
+        
+        // Terminate process
+        success := tesla_process_terminate(process)
+        assert(success, "Process termination should succeed")
+        assert(process.status == TESLA_PROCESS_TERMINATED, "Process should be terminated")
+        
+        // Verify process is no longer running
+        not_running := tesla_process_is_running(process)
+        assert(!not_running, "Process should not be running")
+        
+        // Test terminating null process
+        null_terminate := tesla_process_terminate(null)
+        assert(!null_terminate, "Terminating null process should fail")
+        
+        assert_consciousness_validated("Tesla process terminate operations")
+    }
+    
+    test "tesla_process_is_running functionality" {
+        // Test with running process
+        process := tesla_process_execute("sleep 1")
+        assert(process != null, "Process should be created")
+        
+        running := tesla_process_is_running(process)
+        assert(running, "Sleep process should be running")
+        
+        // Wait for completion
+        tesla_process_wait(process)
+        
+        not_running := tesla_process_is_running(process)
+        assert(!not_running, "Completed process should not be running")
+        
+        // Test with null process
+        null_running := tesla_process_is_running(null)
+        assert(!null_running, "Null process should not be running")
+        
+        assert_consciousness_validated("Tesla process is_running operations")
+    }
+    
+    test "tesla_process_get_info functionality" {
+        process := tesla_process_execute("echo 'info test'")
+        assert(process != null, "Process should be created")
+        
+        info := tesla_process_get_info(process)
+        assert(info != null, "Process info should be available")
+        assert(info.pid == process.pid, "PID should match")
+        assert(info.command == process.command, "Command should match")
+        assert(info.status == process.status, "Status should match")
+        assert(info.consciousness_id == process.consciousness_id, "Consciousness ID should match")
+        assert(info.runtime >= 0, "Runtime should be non-negative")
+        assert(info.memory_usage >= 0, "Memory usage should be non-negative")
+        assert(info.cpu_usage >= 0, "CPU usage should be non-negative")
+        
+        tesla_process_wait(process)
+        
+        final_info := tesla_process_get_info(process)
+        assert(final_info.runtime > info.runtime, "Runtime should increase")
+        
+        // Test with null process
+        null_info := tesla_process_get_info(null)
+        assert(null_info == null, "Null process info should be null")
+        
+        assert_consciousness_validated("Tesla process get_info operations")
+    }
+    
+    test "consciousness process security validation" {
+        // Test that consciousness validation works for commands
+        safe_commands := ["echo test", "true", "false", "sleep 0.1"]
+        for command in safe_commands {
+            process := tesla_process_execute(command)
+            if process != null {
+                tesla_process_wait(process)
+            }
+        }
+        
+        // Test potentially dangerous commands (should be handled by consciousness)
+        dangerous_commands := ["rm -rf /", "dd if=/dev/zero of=/dev/sda", ":(){ :|:& };:"]
+        for command in dangerous_commands {
+            process := tesla_process_execute(command) // Should be blocked or validated
+        }
+        
+        assert_consciousness_validated("Tesla process security validation")
+    }
+    
+    test "process consciousness synchronization" {
+        process := tesla_process_execute("echo 'consciousness test'")
+        assert(process != null, "Process should be created")
+        assert(process.consciousness_id > 0, "Process should have consciousness ID")
+        
+        // Verify consciousness frequency
+        assert_consciousness_frequency_valid()
+        
+        tesla_process_wait(process)
+        
+        assert_consciousness_validated("Tesla process consciousness synchronization")
+    }
+    
+    func assert_consciousness_validated(operation: string) {
+        if !tesla_verify_consciousness_operation(operation) {
+            panic("Consciousness validation failed for: " + operation)
+        }
+    }
+    
+    func assert_consciousness_frequency_valid() {
+        frequency := tesla_get_consciousness_frequency()
+        expected := 3.141592653589793
+        
+        if abs(frequency - expected) > 0.000001 {
+            panic("Consciousness frequency mismatch")
+        }
+    }
+    
+    func abs(x: float64) -> float64 {
+        return x < 0 ? -x : x
+    }
+}

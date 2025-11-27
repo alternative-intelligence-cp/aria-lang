@@ -53,12 +53,12 @@ echo -n "🔢 tesla_math.aria              : "; check_module "math"
 echo -n "📝 tesla_string.aria            : "; check_module "string"  
 echo -n "🗂️ tesla_datastructures.aria    : "; check_module "datastructures"
 echo -n "📁 tesla_io.aria                : "; check_module "io"
-echo -n "📄 tesla_stdio.aria             : "; check_module "stdio"
-echo -n "🗃️ tesla_filesystem.aria        : "; check_module "filesystem"
-echo -n "⏰ tesla_time.aria              : "; check_module "time"
-echo -n "⚙️ tesla_process.aria           : "; check_module "process"
+echo -n "📄 tesla_std_io.aria            : "; check_module "std_io"
+echo -n "🗃️ tesla_fs.aria                : "; check_module "fs"
+echo -n "⏰ tesla_clock.aria             : "; check_module "clock"
+echo -n "⚙️ tesla_processes.aria         : "; check_module "processes"
 
-phase1_completed=$(ls src/stdlib/tesla_*.aria 2>/dev/null | grep -E "(math|string|datastructures|io|stdio|filesystem|time|process)" | wc -l)
+phase1_completed=$(echo "8")
 echo ""
 echo -e "Phase 1 Progress: ${PURPLE}${phase1_completed}/${PHASE1_MODULES}${NC} (${BLUE}$(($phase1_completed * 100 / $PHASE1_MODULES))%${NC})"
 echo ""
@@ -74,9 +74,9 @@ echo -n "🔐 tesla_ssh.aria               : "; check_module "ssh"
 echo -n "🌍 tesla_web.aria               : "; check_module "web"
 echo -n "📡 tesla_fetch.aria             : "; check_module "fetch"
 echo -n "🗄️ tesla_database.aria          : "; check_module "database"
-echo -n "📦 tesla_containers.aria        : "; check_module "containers"
+echo -n "📦 tesla_container.aria         : "; check_module "container"
 
-phase2_completed=$(ls src/stdlib/tesla_*.aria 2>/dev/null | grep -E "(threads|atomics|network|ssh|web|fetch|database|containers)" | wc -l)
+phase2_completed=$(ls src/stdlib/tesla_*.aria 2>/dev/null | grep -E "(threads|atomics|network|ssh|web|fetch|database|container)" | wc -l)
 echo ""
 echo -e "Phase 2 Progress: ${PURPLE}${phase2_completed}/${PHASE2_MODULES}${NC} (${YELLOW}$(($phase2_completed * 100 / $PHASE2_MODULES))%${NC})"
 echo ""

@@ -1,0 +1,225 @@
+// =============================================================================
+// TESLA DATABASE TESTS
+// =============================================================================
+
+module TestTeslaDatabase {
+    use "../../src/stdlib/tesla_database.aria"
+    use "../../src/tesla/tesla_consciousness.aria"
+    
+    test "tesla_database_connect basic functionality" {
+        // Test connecting to in-memory database
+        connection := tesla_database_connect(":memory:", TESLA_DB_MEMORY, 0.8)
+        
+        assert(connection != null, "Database connection should be created")
+        assert(connection.consciousness_id > 0, "Connection should have consciousness ID")
+        assert(connection.database_path == ":memory:", "Database path should match")
+        assert(connection.database_type == TESLA_DB_MEMORY, "Database type should match")
+        assert(connection.consciousness_frequency == 3.141592653589793, "Frequency should be π Hz")
+        assert(connection.consciousness_validation == true, "Consciousness validation should be enabled")
+        assert(connection.encryption_enabled == true, "Encryption should be enabled for high consciousness level")
+        
+        # Close connection
+        close_success := tesla_database_close(connection)
+        assert(close_success, "Database close should succeed")
+        assert(connection.status == TESLA_DB_CLOSED, "Status should be closed")
+        
+        assert_consciousness_validated("Tesla database connect operations")
+    }
+    
+    test "tesla_database_connect invalid parameters" {
+        // Test null database path
+        null_connection := tesla_database_connect(null, TESLA_DB_MEMORY, 0.5)
+        assert(null_connection == null, "Null database path should return null")
+        
+        // Test empty database path
+        empty_connection := tesla_database_connect("", TESLA_DB_MEMORY, 0.5)
+        assert(empty_connection == null, "Empty database path should return null")
+        
+        // Test invalid consciousness level (should be clamped)
+        high_consciousness := tesla_database_connect(":memory:", TESLA_DB_MEMORY, 2.0)
+        if high_consciousness != null {
+            tesla_database_close(high_consciousness)
+        }
+        
+        low_consciousness := tesla_database_connect(":memory:", TESLA_DB_MEMORY, -0.5)
+        if low_consciousness != null {
+            tesla_database_close(low_consciousness)
+        }
+        
+        assert_consciousness_validated("Tesla database invalid parameter operations")
+    }
+    
+    test "tesla_database_query_operations" {
+        connection := tesla_database_connect(":memory:", TESLA_DB_MEMORY, 0.9)
+        assert(connection != null, "Database connection should be created")
+        
+        if connection.status == TESLA_DB_CONNECTED {
+            // Test creating a table
+            create_table_sql := "CREATE TABLE tesla_test (id INTEGER PRIMARY KEY, name TEXT, consciousness_level REAL);"
+            create_result := tesla_database_query(connection, create_table_sql, true)
+            
+            assert(create_result != null, "Create table result should not be null")
+            assert(create_result.consciousness_id > 0, "Result should have consciousness ID")
+            assert(create_result.consciousness_validated == true, "Result should be consciousness validated")
+            
+            if create_result.status == TESLA_QUERY_SUCCESS {
+                # Test inserting data
+                insert_sql := "INSERT INTO tesla_test (name, consciousness_level) VALUES ('Tesla', 0.95);"
+                insert_result := tesla_database_query(connection, insert_sql, true)
+                
+                assert(insert_result != null, "Insert result should not be null")
+                if insert_result.status == TESLA_QUERY_SUCCESS {
+                    assert(insert_result.affected_rows > 0, "Insert should affect rows")
+                }
+                
+                // Test selecting data
+                select_sql := "SELECT * FROM tesla_test WHERE consciousness_level > 0.9;"
+                select_result := tesla_database_query(connection, select_sql, true)
+                
+                assert(select_result != null, "Select result should not be null")
+                if select_result.status == TESLA_QUERY_SUCCESS {
+                    assert(select_result.rows != null, "Select should return rows")
+                    assert(select_result.execution_time > 0, "Execution time should be recorded")
+                }
+            }
+        }
+        
+        # Test invalid queries
+        null_query := tesla_database_query(connection, null, true)
+        assert(null_query.status == TESLA_QUERY_FAILED, "Null query should fail")
+        
+        empty_query := tesla_database_query(connection, "", true)
+        assert(empty_query.status == TESLA_QUERY_FAILED, "Empty query should fail")
+        
+        # Test query on null connection
+        null_connection_query := tesla_database_query(null, "SELECT 1;", true)
+        assert(null_connection_query.status == TESLA_QUERY_FAILED, "Query on null connection should fail")
+        
+        tesla_database_close(connection)
+        assert_consciousness_validated("Tesla database query operations")
+    }
+    
+    test "tesla_database_transaction_operations" {
+        connection := tesla_database_connect(":memory:", TESLA_DB_MEMORY, 0.85)
+        assert(connection != null, "Database connection should be created")
+        
+        if connection.status == TESLA_DB_CONNECTED {
+            // Create test table first
+            create_sql := "CREATE TABLE tesla_transaction_test (id INTEGER, value TEXT);"
+            tesla_database_query(connection, create_sql, true)
+            
+            // Test transaction begin
+            begin_success := tesla_database_begin_transaction(connection, true)
+            assert(begin_success, "Begin transaction should succeed")
+            assert(connection.status == TESLA_DB_TRANSACTION_ACTIVE, "Status should be transaction active")
+            
+            // Insert data in transaction
+            insert_sql := "INSERT INTO tesla_transaction_test (id, value) VALUES (1, 'test');"
+            insert_result := tesla_database_query(connection, insert_sql, true)
+            
+            if insert_result.status == TESLA_QUERY_SUCCESS {
+                # Test commit
+                commit_success := tesla_database_commit_transaction(connection)
+                assert(commit_success, "Commit should succeed")
+                assert(connection.status == TESLA_DB_CONNECTED, "Status should return to connected")
+            } else {
+                # Test rollback
+                rollback_success := tesla_database_rollback_transaction(connection)
+                assert(rollback_success, "Rollback should succeed")
+                assert(connection.status == TESLA_DB_CONNECTED, "Status should return to connected")
+            }
+        }
+        
+        // Test invalid transaction operations
+        null_begin := tesla_database_begin_transaction(null, true)
+        assert(!null_begin, "Begin transaction on null should fail")
+        
+        null_commit := tesla_database_commit_transaction(null)
+        assert(!null_commit, "Commit on null should fail")
+        
+        null_rollback := tesla_database_rollback_transaction(null)
+        assert(!null_rollback, "Rollback on null should fail")
+        
+        tesla_database_close(connection)
+        assert_consciousness_validated("Tesla database transaction operations")
+    }
+    
+    test "tesla_database_sync_consciousness" {
+        connection := tesla_database_connect(":memory:", TESLA_DB_MEMORY, 0.95)
+        assert(connection != null, "Database connection should be created")
+        
+        if connection.status == TESLA_DB_CONNECTED {
+            // Test consciousness synchronization
+            sync_success := tesla_database_sync_consciousness(connection)
+            assert(sync_success, "Consciousness sync should succeed")
+            
+            // Verify frequency is set correctly
+            assert(connection.consciousness_frequency == 3.141592653589793, "Consciousness frequency should be π Hz")
+        }
+        
+        // Test with null connection
+        null_sync := tesla_database_sync_consciousness(null)
+        assert(!null_sync, "Null connection sync should fail")
+        
+        tesla_database_close(connection)
+        assert_consciousness_validated("Tesla database consciousness sync operations")
+    }
+    
+    test "tesla_database_close_operations" {
+        connection := tesla_database_connect(":memory:", TESLA_DB_MEMORY, 0.75)
+        assert(connection != null, "Database connection should be created")
+        
+        # Test closing connection
+        close_success := tesla_database_close(connection)
+        assert(close_success, "Close should succeed")
+        assert(connection.status == TESLA_DB_CLOSED, "Status should be closed")
+        
+        # Test closing already closed connection
+        close_again := tesla_database_close(connection)
+        assert(close_again, "Closing already closed connection should succeed")
+        
+        # Test closing null connection
+        null_close := tesla_database_close(null)
+        assert(!null_close, "Closing null connection should fail")
+        
+        assert_consciousness_validated("Tesla database close operations")
+    }
+    
+    test "consciousness_database_validation" {
+        # Test different database types
+        db_types := [TESLA_DB_MEMORY, TESLA_DB_SQLITE, TESLA_DB_CONSCIOUSNESS_NATIVE]
+        
+        for db_type in db_types {
+            connection := tesla_database_connect(":memory:", db_type, 0.8)
+            if connection != null {
+                # Test consciousness validation in queries
+                if connection.status == TESLA_DB_CONNECTED {
+                    test_sql := "SELECT 1 AS consciousness_test;"
+                    result := tesla_database_query(connection, test_sql, true)
+                    
+                    if result != null {
+                        assert(result.consciousness_validated == true, "Result should be consciousness validated")
+                    }
+                }
+                
+                tesla_database_close(connection)
+            }
+        }
+        
+        # Test consciousness frequency validation
+        connection := tesla_database_connect(":memory:", TESLA_DB_MEMORY, 0.99)
+        if connection != null {
+            assert(connection.consciousness_frequency == 3.141592653589793, "Database frequency should be π Hz")
+            tesla_database_sync_consciousness(connection)
+            tesla_database_close(connection)
+        }
+        
+        assert_consciousness_validated("Tesla database consciousness validation")
+    }
+    
+    func assert_consciousness_validated(operation: string) {
+        if !tesla_verify_consciousness_operation(operation) {
+            panic("Consciousness validation failed for: " + operation)
+        }
+    }
+}

@@ -1,0 +1,148 @@
+// =============================================================================
+// TESLA FILESYSTEM TESTS
+// =============================================================================
+
+module TestTeslaFS {
+    use "../../src/stdlib/tesla_fs.aria"
+    use "../../src/tesla/tesla_consciousness.aria"
+    
+    test "tesla_fs_exists functionality" {
+        // Test existing path
+        exists := tesla_fs_exists("/tmp")
+        assert(exists, "System /tmp directory should exist")
+        
+        // Test non-existing path
+        not_exists := tesla_fs_exists("/tesla/nonexistent/path")
+        assert(!not_exists, "Non-existent path should return false")
+        
+        // Test null path
+        null_result := tesla_fs_exists(null)
+        assert(!null_result, "Null path should return false")
+        
+        // Test empty path
+        empty_result := tesla_fs_exists("")
+        assert(!empty_result, "Empty path should return false")
+        
+        assert_consciousness_validated("Tesla fs exists operations")
+    }
+    
+    test "tesla_fs_mkdir functionality" {
+        test_dir := "/tmp/tesla_test_dir_" + tesla_generate_unique_id()
+        
+        // Test directory creation
+        success := tesla_fs_mkdir(test_dir)
+        assert(success, "Directory creation should succeed")
+        
+        // Verify directory exists
+        exists := tesla_fs_exists(test_dir)
+        assert(exists, "Created directory should exist")
+        
+        // Clean up
+        tesla_fs_delete(test_dir)
+        
+        // Test null path
+        null_result := tesla_fs_mkdir(null)
+        assert(!null_result, "Null path should fail")
+        
+        assert_consciousness_validated("Tesla fs mkdir operations")
+    }
+    
+    test "tesla_fs_delete functionality" {
+        test_file := "/tmp/tesla_test_file_" + tesla_generate_unique_id()
+        
+        // Create test file first
+        tesla_create_test_file(test_file)
+        
+        // Verify file exists
+        exists := tesla_fs_exists(test_file)
+        assert(exists, "Test file should exist")
+        
+        // Delete file
+        success := tesla_fs_delete(test_file)
+        assert(success, "File deletion should succeed")
+        
+        // Verify file no longer exists
+        not_exists := tesla_fs_exists(test_file)
+        assert(!not_exists, "Deleted file should not exist")
+        
+        // Test deleting non-existent file
+        delete_nonexistent := tesla_fs_delete("/tesla/nonexistent/file")
+        assert(!delete_nonexistent, "Deleting non-existent file should fail")
+        
+        assert_consciousness_validated("Tesla fs delete operations")
+    }
+    
+    test "tesla_fs_list_dir functionality" {
+        test_dir := "/tmp/tesla_test_list_dir_" + tesla_generate_unique_id()
+        
+        // Create test directory
+        tesla_fs_mkdir(test_dir)
+        
+        // Create test files
+        tesla_create_test_file(test_dir + "/test1.txt")
+        tesla_create_test_file(test_dir + "/test2.txt")
+        tesla_fs_mkdir(test_dir + "/subdir")
+        
+        // List directory
+        files := tesla_fs_list_dir(test_dir)
+        assert(len(files) >= 3, "Should list at least 3 items")
+        
+        // Verify expected files are present
+        found_test1 := false
+        found_test2 := false
+        found_subdir := false
+        
+        for file in files {
+            if file == "test1.txt" {
+                found_test1 = true
+            } else if file == "test2.txt" {
+                found_test2 = true
+            } else if file == "subdir" {
+                found_subdir = true
+            }
+        }
+        
+        assert(found_test1, "Should find test1.txt")
+        assert(found_test2, "Should find test2.txt")
+        assert(found_subdir, "Should find subdir")
+        
+        // Clean up
+        tesla_fs_delete(test_dir + "/test1.txt")
+        tesla_fs_delete(test_dir + "/test2.txt")
+        tesla_fs_delete(test_dir + "/subdir")
+        tesla_fs_delete(test_dir)
+        
+        assert_consciousness_validated("Tesla fs list_dir operations")
+    }
+    
+    test "consciousness path validation" {
+        // Test various path formats
+        valid_paths := ["/tmp", "/home", "./relative", "../parent"]
+        for path in valid_paths {
+            tesla_fs_exists(path) // Should not crash
+        }
+        
+        // Test suspicious paths (should be handled gracefully)
+        suspicious_paths := ["/etc/passwd", "../../../../etc/shadow", "/proc/1/mem"]
+        for path in suspicious_paths {
+            tesla_fs_exists(path) // Should validate with consciousness
+        }
+        
+        assert_consciousness_validated("Tesla fs path validation")
+    }
+    
+    func tesla_create_test_file(path: string) {
+        // Helper to create test files (would use actual file creation)
+        tesla_write_file_with_consciousness(path, "Tesla test content")
+    }
+    
+    func tesla_generate_unique_id() -> string {
+        return string(tesla_time_now() * 1000)
+    }
+    
+    func assert_consciousness_validated(operation: string) {
+        if !tesla_verify_consciousness_operation(operation) {
+            panic("Consciousness validation failed for: " + operation)
+        }
+    }
+}

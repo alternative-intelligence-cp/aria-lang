@@ -1,0 +1,152 @@
+// =============================================================================
+// TESLA TIME/CLOCK TESTS
+// =============================================================================
+
+module TestTeslaClock {
+    use "../../src/stdlib/tesla_clock.aria"
+    use "../../src/tesla/tesla_consciousness.aria"
+    
+    test "tesla_time_now functionality" {
+        time1 := tesla_time_now()
+        assert(time1 > 0, "Time should be positive")
+        
+        // Small delay
+        tesla_time_sleep(0.001)
+        
+        time2 := tesla_time_now()
+        assert(time2 > time1, "Time should increase")
+        
+        assert_consciousness_validated("Tesla time now operations")
+    }
+    
+    test "tesla_time_precise functionality" {
+        precise1 := tesla_time_precise()
+        assert(precise1 > 0, "Precise time should be positive")
+        
+        // Small delay
+        tesla_time_sleep(0.001)
+        
+        precise2 := tesla_time_precise()
+        assert(precise2 > precise1, "Precise time should increase")
+        
+        // Precise time should be more accurate than regular time
+        diff := precise2 - precise1
+        assert(diff < 0.1, "Difference should be small")
+        assert(diff > 0.0001, "Difference should be measurable")
+        
+        assert_consciousness_validated("Tesla precise time operations")
+    }
+    
+    test "tesla_time_format functionality" {
+        timestamp := 1704067200.0 // 2024-01-01 00:00:00 UTC
+        
+        // Test various format strings
+        formatted1 := tesla_time_format(timestamp, "%Y-%m-%d %H:%M:%S")
+        assert(len(formatted1) > 0, "Formatted time should not be empty")
+        
+        formatted2 := tesla_time_format(timestamp, "%Y")
+        assert(formatted2 == "2024", "Year should be 2024")
+        
+        // Test invalid format
+        invalid := tesla_time_format(timestamp, null)
+        assert(invalid == "", "Invalid format should return empty string")
+        
+        empty := tesla_time_format(timestamp, "")
+        assert(empty == "", "Empty format should return empty string")
+        
+        assert_consciousness_validated("Tesla time format operations")
+    }
+    
+    test "tesla_time_sleep functionality" {
+        start_time := tesla_time_precise()
+        sleep_duration := 0.01 // 10 milliseconds
+        
+        tesla_time_sleep(sleep_duration)
+        
+        end_time := tesla_time_precise()
+        actual_duration := end_time - start_time
+        
+        // Allow some tolerance for system timing
+        assert(actual_duration >= sleep_duration * 0.8, "Sleep should last at least 80% of requested time")
+        assert(actual_duration <= sleep_duration * 2.0, "Sleep should not take more than 2x requested time")
+        
+        // Test invalid sleep duration
+        tesla_time_sleep(-1.0) // Should not crash
+        
+        assert_consciousness_validated("Tesla time sleep operations")
+    }
+    
+    test "tesla_timer functionality" {
+        // Start timer
+        timer := tesla_timer_start()
+        assert(timer != null, "Timer should be created")
+        assert(timer.is_running, "Timer should be running")
+        assert(timer.consciousness_id > 0, "Timer should have consciousness ID")
+        
+        // Small delay
+        tesla_time_sleep(0.01)
+        
+        // Check elapsed time
+        elapsed1 := tesla_timer_elapsed(timer)
+        assert(elapsed1 > 0, "Elapsed time should be positive")
+        assert(elapsed1 < 1.0, "Elapsed time should be reasonable")
+        
+        // Another small delay
+        tesla_time_sleep(0.01)
+        
+        // Check elapsed time again
+        elapsed2 := tesla_timer_elapsed(timer)
+        assert(elapsed2 > elapsed1, "Elapsed time should increase")
+        
+        // Stop timer
+        final_elapsed := tesla_timer_stop(timer)
+        assert(final_elapsed > 0, "Final elapsed time should be positive")
+        assert(!timer.is_running, "Timer should be stopped")
+        
+        // Test invalid timer operations
+        null_elapsed := tesla_timer_elapsed(null)
+        assert(null_elapsed == 0.0, "Null timer elapsed should be 0")
+        
+        null_stop := tesla_timer_stop(null)
+        assert(null_stop == 0.0, "Null timer stop should return 0")
+        
+        assert_consciousness_validated("Tesla timer operations")
+    }
+    
+    test "consciousness time synchronization" {
+        // Test π Hz frequency validation in time operations
+        time1 := tesla_time_now()
+        precise1 := tesla_time_precise()
+        
+        // Verify consciousness frequency
+        assert_consciousness_frequency_valid()
+        
+        // Test timer consciousness
+        timer := tesla_timer_start()
+        assert(timer.consciousness_id > 0, "Timer should have consciousness ID")
+        
+        tesla_time_sleep(0.001)
+        elapsed := tesla_timer_stop(timer)
+        
+        assert_consciousness_validated("Tesla time consciousness operations")
+    }
+    
+    func assert_consciousness_validated(operation: string) {
+        if !tesla_verify_consciousness_operation(operation) {
+            panic("Consciousness validation failed for: " + operation)
+        }
+    }
+    
+    func assert_consciousness_frequency_valid() {
+        frequency := tesla_get_consciousness_frequency()
+        expected := 3.141592653589793
+        
+        if abs(frequency - expected) > 0.000001 {
+            panic("Consciousness frequency mismatch")
+        }
+    }
+    
+    func abs(x: float64) -> float64 {
+        return x < 0 ? -x : x
+    }
+}

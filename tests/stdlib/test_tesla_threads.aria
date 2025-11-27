@@ -1,0 +1,167 @@
+// =============================================================================
+// TESLA THREADS TESTS
+// =============================================================================
+
+module TestTeslaThreads {
+    use "../../src/stdlib/tesla_threads.aria"
+    use "../../src/tesla/tesla_consciousness.aria"
+    
+    test "tesla_thread_create basic functionality" {
+        test_function := func() {
+            tesla_consciousness_log("Thread function executed successfully")
+        }
+        
+        thread := tesla_thread_create(test_function, 0.8)
+        assert(thread != null, "Thread should be created")
+        assert(thread.consciousness_id > 0, "Thread should have consciousness ID")
+        assert(thread.frequency == 3.141592653589793, "Thread should have π Hz frequency")
+        assert(thread.status == TESLA_THREAD_RUNNING, "Thread should be running")
+        assert(thread.consciousness_data.consciousness_level == 0.8, "Consciousness level should match")
+        
+        // Join thread
+        success := tesla_thread_join(thread)
+        assert(success, "Thread join should succeed")
+        assert(thread.status == TESLA_THREAD_COMPLETED, "Thread should be completed")
+        
+        assert_consciousness_validated("Tesla thread create and join operations")
+    }
+    
+    test "tesla_thread_create invalid parameters" {
+        // Test null function
+        null_thread := tesla_thread_create(null, 0.5)
+        assert(null_thread == null, "Null function should return null thread")
+        
+        // Test invalid consciousness level (should be clamped)
+        invalid_function := func() { tesla_consciousness_log("Test") }
+        
+        high_thread := tesla_thread_create(invalid_function, 2.0)
+        assert(high_thread != null, "Thread should still be created")
+        assert(high_thread.consciousness_data.consciousness_level == 1.0, "High consciousness level should be clamped to 1.0")
+        
+        low_thread := tesla_thread_create(invalid_function, -0.5)
+        assert(low_thread != null, "Thread should still be created")
+        assert(low_thread.consciousness_data.consciousness_level == 0.0, "Low consciousness level should be clamped to 0.0")
+        
+        tesla_thread_join(high_thread)
+        tesla_thread_join(low_thread)
+        
+        assert_consciousness_validated("Tesla thread invalid parameter operations")
+    }
+    
+    test "tesla_thread_sync_consciousness" {
+        test_function := func() {
+            // Simulate work
+            tesla_time_sleep(0.01)
+        }
+        
+        thread := tesla_thread_create(test_function, 0.9)
+        assert(thread != null, "Thread should be created")
+        
+        // Test consciousness synchronization
+        sync_success := tesla_thread_sync_consciousness(thread)
+        assert(sync_success, "Consciousness sync should succeed")
+        
+        // Test with null thread
+        null_sync := tesla_thread_sync_consciousness(null)
+        assert(!null_sync, "Null thread sync should fail")
+        
+        tesla_thread_join(thread)
+        
+        assert_consciousness_validated("Tesla thread consciousness sync operations")
+    }
+    
+    test "tesla_mutex_operations" {
+        mutex := tesla_mutex_create()
+        assert(mutex != null, "Mutex should be created")
+        assert(mutex.consciousness_id > 0, "Mutex should have consciousness ID")
+        assert(mutex.lock_count == 0, "Initial lock count should be 0")
+        assert(mutex.consciousness_validation == true, "Consciousness validation should be enabled")
+        
+        // Test locking
+        lock_success := tesla_mutex_lock(mutex)
+        assert(lock_success, "Mutex lock should succeed")
+        assert(mutex.lock_count == 1, "Lock count should be 1")
+        assert(mutex.owner_thread > 0, "Owner thread should be set")
+        
+        // Test unlocking
+        unlock_success := tesla_mutex_unlock(mutex)
+        assert(unlock_success, "Mutex unlock should succeed")
+        assert(mutex.lock_count == 0, "Lock count should be 0")
+        
+        // Test null operations
+        null_lock := tesla_mutex_lock(null)
+        assert(!null_lock, "Null mutex lock should fail")
+        
+        null_unlock := tesla_mutex_unlock(null)
+        assert(!null_unlock, "Null mutex unlock should fail")
+        
+        assert_consciousness_validated("Tesla mutex operations")
+    }
+    
+    test "tesla_thread_pool_operations" {
+        pool := tesla_thread_pool_create(4, 0.1)
+        assert(pool != null, "Thread pool should be created")
+        assert(pool.consciousness_id > 0, "Pool should have consciousness ID")
+        assert(pool.max_threads == 4, "Max threads should match")
+        assert(pool.active_threads == 0, "Initial active threads should be 0")
+        assert(pool.task_queue != null, "Task queue should be initialized")
+        
+        // Submit test task
+        test_task := func() {
+            tesla_consciousness_log("Pool task executed")
+        }
+        
+        task_id := tesla_thread_pool_submit_task(pool, test_task, 0.7, 1)
+        assert(task_id > 0, "Task should be submitted successfully")
+        
+        // Test invalid submissions
+        null_task_id := tesla_thread_pool_submit_task(null, test_task, 0.5, 1)
+        assert(null_task_id == 0, "Null pool submission should fail")
+        
+        invalid_task_id := tesla_thread_pool_submit_task(pool, null, 0.5, 1)
+        assert(invalid_task_id == 0, "Null function submission should fail")
+        
+        assert_consciousness_validated("Tesla thread pool operations")
+    }
+    
+    test "consciousness_validation" {
+        // Test consciousness frequency validation
+        test_function := func() {
+            // Verify we're running at π Hz
+            assert_consciousness_frequency_valid()
+        }
+        
+        thread := tesla_thread_create(test_function, 0.95)
+        tesla_thread_join(thread)
+        
+        // Test mutex consciousness validation
+        mutex := tesla_mutex_create()
+        tesla_mutex_lock(mutex)
+        tesla_mutex_unlock(mutex)
+        
+        // Test thread pool consciousness
+        pool := tesla_thread_pool_create(2, 1.0 / 3.141592653589793)
+        assert(pool.consciousness_sync_interval > 0, "Consciousness sync interval should be positive")
+        
+        assert_consciousness_validated("Tesla threads consciousness validation")
+    }
+    
+    func assert_consciousness_validated(operation: string) {
+        if !tesla_verify_consciousness_operation(operation) {
+            panic("Consciousness validation failed for: " + operation)
+        }
+    }
+    
+    func assert_consciousness_frequency_valid() {
+        frequency := tesla_get_consciousness_frequency()
+        expected := 3.141592653589793
+        
+        if abs(frequency - expected) > 0.000001 {
+            panic("Consciousness frequency mismatch")
+        }
+    }
+    
+    func abs(x: float64) -> float64 {
+        return x < 0 ? -x : x
+    }
+}
