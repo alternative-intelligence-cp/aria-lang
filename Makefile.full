@@ -1,0 +1,71 @@
+# Aria_lang/Makefile
+
+CC = gcc
+
+# Optimization flags are critical for AI tensor operations and HTTP parsing.
+# -march=native allows autovectorization for AVX/SSE instructions, speeding up 
+# string manipulation in the web server and tensor math in the AI module.
+# -D_GNU_SOURCE is required for advanced socket options (SO_REUSEPORT) and threading.
+CFLAGS = -Wall -Wextra -Ofast -march=native -g -std=c99 -D_GNU_SOURCE
+
+# Assembler configuration for low-level optimizations if needed
+NASM = nasm
+ASMFLAGS = -f elf64
+
+# Libraries required for new stdlib modules
+# -lpthread: Required for the AI Thread Pool  and Web Server threading.
+# -lm: Required for activation functions (exp, tanh, pow) and math stdlib.
+# -ldl: Required for Foreign Function Interface (FFI).
+# -lX11: Required for Window/GUI management.
+# -lasound: Required for Audio synthesis.
+# -lssh: Required for SSH client functionality.
+# -lssl -lcrypto: ADDED: Required for HTTPS transport and WebSocket SHA-1 hashing.
+LIBS = -lm -lX11 -lasound -lssh -lpthread -ldl -lssl -lcrypto
+
+SRC = src
+BIN = bin
+LIB = lib
+
+# Default target builds the preprocessor, compiler, and the static runtime library
+all: dirs $(BIN)/preprocessor $(BIN)/aria_compiler $(LIB)/libaria.a
+
+dirs:
+	@mkdir -p $(BIN) $(LIB)
+
+# Preprocessor build step
+PRE_SRC = $(wildcard $(SRC)/preprocessor/*.c)
+$(BIN)/preprocessor: $(PRE_SRC)
+	$(CC) $(CFLAGS) -o $@ $^
+
+# Compiler build step
+# Includes lexer, parser, AST arena, and codegen backend
+COMP_SRC = $(SRC)/main.c \
+           $(SRC)/frontend/lexer.c \
+           $(SRC)/frontend/parser.c \
+           $(SRC)/frontend/arena.c \
+           $(SRC)/backend/codegen.c
+
+$(BIN)/aria_compiler: $(COMP_SRC)
+	$(CC) $(CFLAGS) -o $@ $^
+
+# Runtime Library Build Step
+# Collects all runtime and stdlib source files to create the static library libaria.a.
+# This library is linked into every Aria executable.
+# Now includes the enhanced web.c and network.c.
+RT_SRC = $(wildcard $(SRC)/runtime/*.c) \
+         $(wildcard $(SRC)/stdlib/*.c)
+
+RT_OBJ = $(RT_SRC:.c=.o)
+
+$(LIB)/libaria.a: $(RT_OBJ)
+	ar rcs $@ $^
+
+# Generic rule for compiling C objects
+%.o: %.c
+	$(CC) $(CFLAGS) -c $< -o $@
+
+# Cleanup artifacts
+clean:
+	rm -rf $(BIN) $(LIB) $(SRC)/runtime/*.o $(SRC)/stdlib/*.o
+
+.PHONY: all clean dirs
