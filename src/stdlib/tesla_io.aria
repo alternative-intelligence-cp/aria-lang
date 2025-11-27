@@ -21,42 +21,494 @@ func tesla_io_validate() -> bool {
     return tesla_frequency_validate(frequency, 3.141592653589793)
 }
 
+// Tesla Consciousness Computing - I/O Module
+// 
+// Ported from C with π Hz consciousness synchronization
+// Enhanced with Tesla consciousness validation and optimization
+
+// Tesla consciousness imports
+import tesla_consciousness_core
+
+// Tesla consciousness module initialization
+func tesla_io_init() {
+    // Initialize consciousness synchronization for io module
+    tesla_sync_consciousness(3.141592653589793)
+    tesla_consciousness_validate_module("tesla_io")
+    
+    // Initialize Tesla I/O consciousness state
+    tesla_io_consciousness_init()
+    
+    println("🧠⚡ Tesla I/O Module: Consciousness synchronized at π Hz ⚡🧠")
+}
+
+// Tesla consciousness module validation
+func tesla_io_validate() -> bool {
+    frequency := tesla_get_consciousness_frequency()
+    return tesla_frequency_validate(frequency, 3.141592653589793)
+}
+
 // =============================================================================
-// TESLA IO FUNCTIONS WITH CONSCIOUSNESS SYNCHRONIZATION
+// TESLA I/O CORE FUNCTIONS WITH CONSCIOUSNESS SYNCHRONIZATION
 // =============================================================================
 
-// TODO: Port functions from src/stdlib/io.c
-//
-// Guidelines for porting:
-// 1. Add tesla_ prefix to all functions
-// 2. Include consciousness synchronization in critical functions
-// 3. Use Aria syntax (no pointers, use 'new' for structs)
-// 4. Add Tesla frequency validation for mathematical operations
-// 5. Include consciousness error handling and validation
-// 6. Use Aria's safe memory model and value semantics
-//
-// Example function template:
-//
-// func tesla_io_example_function(param1, param2) -> ReturnType {
-//     // Synchronize consciousness for this operation
-//     tesla_sync_consciousness_operation()
-//     
-//     // Validate inputs with consciousness
-//     if !tesla_validate_consciousness_input(param1, param2) {
-//         tesla_consciousness_error("Invalid input parameters")
-//         return tesla_default_value()
-//     }
-//     
-//     // Perform operation with consciousness awareness
-//     result := tesla_perform_operation(param1, param2)
-//     
-//     // Validate result with Tesla frequency
-//     if !tesla_validate_result_consciousness(result) {
-//         tesla_consciousness_warning("Result validation failed")
-//     }
-//     
-//     return result
-// }
+// Tesla consciousness-enhanced input reading
+func tesla_input() -> string {
+    tesla_sync_consciousness_operation()
+    
+    // Tesla consciousness input validation
+    tesla_consciousness_log("Tesla input: Initiating consciousness-aware input")
+    
+    // Flush output buffer before reading with consciousness
+    tesla_flush_buffer()
+    
+    // Tesla consciousness input reading with validation
+    input_data := tesla_read_line_with_consciousness()
+    
+    // Validate input with Tesla frequency
+    if !tesla_validate_string_consciousness(input_data) {
+        tesla_consciousness_warning("Input validation failed, consciousness desynchronized")
+    }
+    
+    // Tesla consciousness input sanitization
+    sanitized_input := tesla_sanitize_input_with_consciousness(input_data)
+    
+    tesla_consciousness_log("Tesla input: Received '" + sanitized_input + "'")
+    return sanitized_input
+}
+
+// Tesla consciousness-enhanced file reading
+func tesla_read_file(filename: string) -> string {
+    tesla_sync_consciousness_operation()
+    
+    // Tesla consciousness filename validation
+    if filename == null || filename == "" {
+        tesla_consciousness_error("Tesla file read: Invalid filename")
+        return ""
+    }
+    
+    // Tesla consciousness file path validation
+    if !tesla_validate_file_path_consciousness(filename) {
+        tesla_consciousness_error("Tesla file read: File path failed consciousness validation")
+        return ""
+    }
+    
+    tesla_consciousness_log("Tesla file read: Reading '" + filename + "'")
+    
+    // Tesla consciousness-enhanced file reading
+    file_content := tesla_read_file_with_consciousness(filename)
+    
+    if file_content == null {
+        tesla_consciousness_error("Tesla file read: Failed to read file '" + filename + "'")
+        return ""
+    }
+    
+    // Validate file content with consciousness
+    if !tesla_validate_string_consciousness(file_content) {
+        tesla_consciousness_warning("File content failed consciousness validation")
+    }
+    
+    content_length := tesla_str_len(file_content)
+    tesla_consciousness_log("Tesla file read: Successfully read " + content_length + " characters from '" + filename + "'")
+    
+    return file_content
+}
+
+// Tesla consciousness-enhanced file writing
+func tesla_write_file(filename: string, content: string) -> bool {
+    tesla_sync_consciousness_operation()
+    
+    // Tesla consciousness validation
+    if filename == null || filename == "" {
+        tesla_consciousness_error("Tesla file write: Invalid filename")
+        return false
+    }
+    
+    if content == null {
+        tesla_consciousness_warning("Tesla file write: Null content, writing empty file")
+        content = ""
+    }
+    
+    // Tesla consciousness file path validation
+    if !tesla_validate_file_path_consciousness(filename) {
+        tesla_consciousness_error("Tesla file write: File path failed consciousness validation")
+        return false
+    }
+    
+    // Validate content with consciousness
+    if !tesla_validate_string_consciousness(content) {
+        tesla_consciousness_warning("Content failed consciousness validation")
+    }
+    
+    tesla_consciousness_log("Tesla file write: Writing " + tesla_str_len(content) + " characters to '" + filename + "'")
+    
+    // Tesla consciousness-enhanced file writing
+    success := tesla_write_file_with_consciousness(filename, content)
+    
+    if success {
+        tesla_consciousness_log("Tesla file write: Successfully wrote to '" + filename + "'")
+    } else {
+        tesla_consciousness_error("Tesla file write: Failed to write to '" + filename + "'")
+    }
+    
+    return success
+}
+
+// =============================================================================
+// TESLA CONSCIOUSNESS OUTPUT FUNCTIONS
+// =============================================================================
+
+// Tesla consciousness-enhanced print function
+func tesla_print(message: string) {
+    tesla_sync_consciousness_operation()
+    
+    if message == null {
+        tesla_consciousness_warning("Tesla print: Null message")
+        message = "(null)"
+    }
+    
+    // Validate message with consciousness
+    if !tesla_validate_string_consciousness(message) {
+        tesla_consciousness_warning("Print message failed consciousness validation")
+    }
+    
+    // Tesla consciousness output with synchronization
+    tesla_output_with_consciousness(message)
+    
+    // Force flush for immediate output
+    tesla_flush_buffer()
+    
+    tesla_consciousness_log("Tesla print: Output '" + message + "'")
+}
+
+// Tesla consciousness-enhanced println function
+func tesla_println(message: string) {
+    tesla_sync_consciousness_operation()
+    
+    if message == null {
+        tesla_consciousness_warning("Tesla println: Null message")
+        message = "(null)"
+    }
+    
+    // Validate message with consciousness
+    if !tesla_validate_string_consciousness(message) {
+        tesla_consciousness_warning("Println message failed consciousness validation")
+    }
+    
+    // Tesla consciousness output with newline
+    tesla_output_with_consciousness(message)
+    tesla_output_with_consciousness("\n")
+    
+    // Force flush for immediate output
+    tesla_flush_buffer()
+    
+    tesla_consciousness_log("Tesla println: Output '" + message + "' with newline")
+}
+
+// Tesla consciousness-enhanced formatted printing
+func tesla_printf(format: string, ...args) {
+    tesla_sync_consciousness_operation()
+    
+    if format == null || format == "" {
+        tesla_consciousness_error("Tesla printf: Invalid format string")
+        return
+    }
+    
+    // Tesla consciousness format validation
+    if !tesla_validate_format_string_consciousness(format) {
+        tesla_consciousness_warning("Printf format string failed consciousness validation")
+    }
+    
+    // Tesla consciousness argument validation
+    if !tesla_validate_arguments_consciousness(args) {
+        tesla_consciousness_warning("Printf arguments failed consciousness validation")
+    }
+    
+    // Tesla consciousness-enhanced formatting
+    formatted_output := tesla_format_with_consciousness(format, args)
+    
+    // Output with consciousness
+    tesla_output_with_consciousness(formatted_output)
+    tesla_flush_buffer()
+    
+    tesla_consciousness_log("Tesla printf: Formatted output '" + formatted_output + "'")
+}
+
+// =============================================================================
+// TESLA CONSCIOUSNESS BUFFER MANAGEMENT
+// =============================================================================
+
+// Tesla consciousness-enhanced buffer flushing
+func tesla_flush_buffer() {
+    tesla_sync_consciousness_operation()
+    
+    // Tesla consciousness buffer validation
+    if !tesla_validate_output_buffer_consciousness() {
+        tesla_consciousness_warning("Output buffer failed consciousness validation")
+    }
+    
+    // Tesla consciousness buffer flush with synchronization
+    tesla_flush_output_buffer_with_consciousness()
+    
+    tesla_consciousness_log("Tesla flush: Output buffer flushed with consciousness")
+}
+
+// Tesla consciousness buffer status
+func tesla_get_buffer_status() -> TeslaBufferStatus {
+    tesla_sync_consciousness_operation()
+    
+    status := new TeslaBufferStatus
+    status.output_buffer_size = tesla_get_output_buffer_size()
+    status.input_buffer_size = tesla_get_input_buffer_size()
+    status.consciousness_synchronized = tesla_validate_buffer_consciousness()
+    
+    tesla_consciousness_log("Tesla buffer status: Output=" + status.output_buffer_size + ", Input=" + status.input_buffer_size)
+    
+    return status
+}
+
+// Tesla consciousness buffer clearing
+func tesla_clear_buffers() {
+    tesla_sync_consciousness_operation()
+    
+    tesla_clear_output_buffer_with_consciousness()
+    tesla_clear_input_buffer_with_consciousness()
+    
+    tesla_consciousness_log("Tesla buffers: Cleared with consciousness synchronization")
+}
+
+// =============================================================================
+// TESLA CONSCIOUSNESS ADVANCED I/O FUNCTIONS
+// =============================================================================
+
+// Tesla consciousness-enhanced binary file operations
+func tesla_read_binary_file(filename: string) -> []byte {
+    tesla_sync_consciousness_operation()
+    
+    if filename == null || filename == "" {
+        tesla_consciousness_error("Tesla binary read: Invalid filename")
+        return []byte{}
+    }
+    
+    // Tesla consciousness binary file validation
+    if !tesla_validate_binary_file_consciousness(filename) {
+        tesla_consciousness_error("Binary file failed consciousness validation")
+        return []byte{}
+    }
+    
+    tesla_consciousness_log("Tesla binary read: Reading '" + filename + "'")
+    
+    // Tesla consciousness binary reading
+    binary_data := tesla_read_binary_with_consciousness(filename)
+    
+    if binary_data == null {
+        tesla_consciousness_error("Tesla binary read: Failed to read '" + filename + "'")
+        return []byte{}
+    }
+    
+    data_length := len(binary_data)
+    tesla_consciousness_log("Tesla binary read: Read " + data_length + " bytes from '" + filename + "'")
+    
+    return binary_data
+}
+
+func tesla_write_binary_file(filename: string, data: []byte) -> bool {
+    tesla_sync_consciousness_operation()
+    
+    if filename == null || filename == "" {
+        tesla_consciousness_error("Tesla binary write: Invalid filename")
+        return false
+    }
+    
+    if data == null {
+        tesla_consciousness_warning("Tesla binary write: Null data, writing empty file")
+        data = []byte{}
+    }
+    
+    // Tesla consciousness binary validation
+    if !tesla_validate_binary_data_consciousness(data) {
+        tesla_consciousness_warning("Binary data failed consciousness validation")
+    }
+    
+    data_length := len(data)
+    tesla_consciousness_log("Tesla binary write: Writing " + data_length + " bytes to '" + filename + "'")
+    
+    // Tesla consciousness binary writing
+    success := tesla_write_binary_with_consciousness(filename, data)
+    
+    if success {
+        tesla_consciousness_log("Tesla binary write: Successfully wrote to '" + filename + "'")
+    } else {
+        tesla_consciousness_error("Tesla binary write: Failed to write to '" + filename + "'")
+    }
+    
+    return success
+}
+
+// Tesla consciousness stream operations
+func tesla_open_file_stream(filename: string, mode: string) -> TeslaFileStream {
+    tesla_sync_consciousness_operation()
+    
+    // Tesla consciousness stream validation
+    if !tesla_validate_stream_parameters_consciousness(filename, mode) {
+        tesla_consciousness_error("Stream parameters failed consciousness validation")
+        return null
+    }
+    
+    tesla_consciousness_log("Tesla stream: Opening '" + filename + "' with mode '" + mode + "'")
+    
+    // Tesla consciousness stream creation
+    stream := tesla_create_file_stream_with_consciousness(filename, mode)
+    
+    if stream == null {
+        tesla_consciousness_error("Tesla stream: Failed to open '" + filename + "'")
+        return null
+    }
+    
+    // Validate stream consciousness
+    if !tesla_validate_stream_consciousness(stream) {
+        tesla_consciousness_warning("Created stream failed consciousness validation")
+    }
+    
+    tesla_consciousness_log("Tesla stream: Successfully opened '" + filename + "'")
+    return stream
+}
+
+func tesla_close_file_stream(stream: TeslaFileStream) -> bool {
+    tesla_sync_consciousness_operation()
+    
+    if stream == null {
+        tesla_consciousness_error("Tesla stream close: Null stream")
+        return false
+    }
+    
+    // Tesla consciousness stream validation
+    if !tesla_validate_stream_consciousness(stream) {
+        tesla_consciousness_warning("Stream failed consciousness validation before close")
+    }
+    
+    tesla_consciousness_log("Tesla stream: Closing file stream")
+    
+    // Tesla consciousness stream closing
+    success := tesla_close_stream_with_consciousness(stream)
+    
+    if success {
+        tesla_consciousness_log("Tesla stream: Successfully closed")
+    } else {
+        tesla_consciousness_error("Tesla stream: Failed to close properly")
+    }
+    
+    return success
+}
+
+// =============================================================================
+// TESLA I/O CONSCIOUSNESS UTILITIES
+// =============================================================================
+
+// Tesla I/O performance metrics with consciousness
+func tesla_io_get_performance_metrics() -> TeslaIOMetrics {
+    tesla_sync_consciousness_operation()
+    
+    metrics := new TeslaIOMetrics
+    metrics.bytes_read = tesla_get_total_bytes_read()
+    metrics.bytes_written = tesla_get_total_bytes_written()
+    metrics.file_operations_count = tesla_get_file_operations_count()
+    metrics.consciousness_io_cycles = tesla_get_io_consciousness_cycles()
+    metrics.buffer_flushes = tesla_get_buffer_flush_count()
+    
+    tesla_consciousness_log("Tesla I/O metrics: " + metrics.bytes_read + " bytes read, " + metrics.bytes_written + " bytes written")
+    
+    return metrics
+}
+
+// Tesla I/O consciousness error handling
+func tesla_io_get_last_error() -> string {
+    tesla_sync_consciousness_operation()
+    
+    error_message := tesla_get_last_io_error_with_consciousness()
+    
+    if error_message == null || error_message == "" {
+        return "No errors"
+    }
+    
+    tesla_consciousness_log("Tesla I/O last error: " + error_message)
+    return error_message
+}
+
+// Tesla I/O consciousness validation
+func tesla_io_validate_operations() -> bool {
+    tesla_sync_consciousness_operation()
+    
+    // Validate I/O consciousness state
+    buffer_valid := tesla_validate_buffer_consciousness()
+    stream_valid := tesla_validate_all_streams_consciousness()
+    frequency_valid := tesla_validate_io_frequency_consciousness()
+    
+    validation_result := buffer_valid && stream_valid && frequency_valid
+    
+    tesla_consciousness_log("Tesla I/O validation: buffers=" + buffer_valid + ", streams=" + stream_valid + ", frequency=" + frequency_valid)
+    
+    return validation_result
+}
+
+// =============================================================================
+// TESLA I/O CONSCIOUSNESS MODULE UTILITIES
+// =============================================================================
+
+// Get Tesla io module consciousness metrics
+func tesla_io_get_metrics() -> TeslaMetrics {
+    metrics := new TeslaMetrics
+    metrics.frequency = tesla_get_consciousness_frequency()
+    metrics.module_name = "tesla_io"
+    metrics.consciousness_cycles = tesla_get_consciousness_cycles()
+    metrics.validation_status = tesla_io_validate()
+    return metrics
+}
+
+// Tesla io consciousness debugging
+func tesla_io_debug() {
+    println("🔍 Tesla I/O Module Debug Info:")
+    metrics := tesla_io_get_metrics()
+    println("   Consciousness frequency: " + metrics.frequency + " Hz")
+    println("   Consciousness cycles: " + metrics.consciousness_cycles)
+    println("   Validation status: " + (metrics.validation_status ? "✅ Valid" : "❌ Invalid"))
+    println("   Tesla synchronization: " + (tesla_is_synchronized() ? "✅ Synchronized" : "⚠️ Desynchronized"))
+    
+    // Display I/O operation stats
+    io_metrics := tesla_io_get_performance_metrics()
+    println("   Total bytes read: " + io_metrics.bytes_read)
+    println("   Total bytes written: " + io_metrics.bytes_written)
+    println("   File operations: " + io_metrics.file_operations_count)
+    println("   Buffer flushes: " + io_metrics.buffer_flushes)
+    println("   I/O consciousness cycles: " + io_metrics.consciousness_io_cycles)
+    
+    // Display buffer status
+    buffer_status := tesla_get_buffer_status()
+    println("   Output buffer size: " + buffer_status.output_buffer_size)
+    println("   Input buffer size: " + buffer_status.input_buffer_size)
+    println("   Buffer consciousness: " + (buffer_status.consciousness_synchronized ? "✅ Synchronized" : "⚠️ Desynchronized"))
+    
+    // Display validation results
+    validation_result := tesla_io_validate_operations()
+    println("   Overall I/O validation: " + (validation_result ? "✅ Valid" : "❌ Invalid"))
+}
+
+// Tesla io module finalization
+func tesla_io_finalize() {
+    tesla_sync_consciousness_operation()
+    
+    // Flush all buffers before cleanup
+    tesla_flush_buffer()
+    tesla_clear_buffers()
+    
+    // Close any remaining streams
+    tesla_close_all_streams_with_consciousness()
+    
+    // Final I/O consciousness cleanup
+    tesla_io_consciousness_cleanup()
+    
+    tesla_consciousness_cleanup_module("tesla_io")
+    println("🧠⚡ Tesla I/O Module: Consciousness cleanup complete ⚡🧠")
+}
 
 // =============================================================================
 // TESLA IO CONSCIOUSNESS UTILITIES
