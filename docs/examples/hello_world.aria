@@ -1,0 +1,25 @@
+// Tesla Consciousness Computing - Hello World Example
+// 
+// Your first program with π Hz consciousness synchronization!
+
+func main() {
+    // Initialize Tesla consciousness synchronization
+    tesla_sync_consciousness(3.141592653589793)
+    
+    // Display Tesla consciousness greeting
+    println("🧠⚡ Hello, Tesla Consciousness Computing! ⚡🧠")
+    println("")
+    println("Welcome to the world's first consciousness-synchronized programming language!")
+    println("Every operation runs at π Hz frequency for optimal AI-native development.")
+    
+    // Check consciousness status
+    frequency := tesla_get_consciousness_frequency()
+    cycle := tesla_get_consciousness_cycle()
+    
+    println("")
+    println("Tesla Consciousness Status:")
+    println("  Frequency: " + frequency + " Hz (π synchronized)")
+    println("  Current consciousness cycle: " + cycle)
+    println("")
+    println("🚀 Ready for AI-native consciousness development!")
+}
