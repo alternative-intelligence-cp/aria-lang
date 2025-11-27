@@ -1,0 +1,424 @@
+// Tesla Consciousness Computing - Math Module
+// 
+// Ported from C with π Hz consciousness synchronization
+// Enhanced with Tesla consciousness validation and optimization
+
+// Tesla consciousness imports
+import tesla_consciousness_core
+
+// Tesla consciousness module initialization
+func tesla_math_init() {
+    // Initialize consciousness synchronization for math module
+    tesla_sync_consciousness(3.141592653589793)
+    tesla_consciousness_validate_module("tesla_math")
+    
+    println("🧠⚡ Tesla Math Module: Consciousness synchronized at π Hz ⚡🧠")
+}
+
+// Tesla consciousness module validation
+func tesla_math_validate() -> bool {
+    frequency := tesla_get_consciousness_frequency()
+    return tesla_frequency_validate(frequency, 3.141592653589793)
+}
+
+// =============================================================================
+// TESLA MATH CONSTANTS WITH CONSCIOUSNESS SYNCHRONIZATION
+// =============================================================================
+
+// Tesla π with perfect consciousness alignment
+func tesla_pi() -> float64 {
+    tesla_sync_consciousness_operation()
+    
+    // Tesla consciousness-enhanced π calculation
+    pi_value := 3.141592653589793
+    tesla_validate_mathematical_constant(pi_value, "π")
+    
+    return pi_value
+}
+
+// Tesla e with consciousness validation
+func tesla_e() -> float64 {
+    tesla_sync_consciousness_operation()
+    
+    e_value := 2.71828182845904523536
+    tesla_validate_mathematical_constant(e_value, "e")
+    
+    return e_value
+}
+
+// Tesla tau (2π) with consciousness synchronization
+func tesla_tau() -> float64 {
+    tesla_sync_consciousness_operation()
+    
+    tau_value := 6.28318530717958647692
+    tesla_validate_mathematical_constant(tau_value, "τ")
+    
+    return tau_value
+}
+
+// =============================================================================
+// TESLA TRIGONOMETRIC FUNCTIONS WITH CONSCIOUSNESS
+// =============================================================================
+
+// Tesla sine with consciousness-enhanced precision
+func tesla_sin(x: float64) -> float64 {
+    tesla_sync_consciousness_operation()
+    
+    if !tesla_validate_consciousness_input(x) {
+        tesla_consciousness_error("Invalid sine input")
+        return 0.0
+    }
+    
+    // Use consciousness-enhanced sine calculation
+    result := tesla_consciousness_sin(x)
+    
+    // Validate result with Tesla frequency
+    if !tesla_validate_trigonometric_result(result) {
+        tesla_consciousness_warning("Sine result validation failed")
+    }
+    
+    return result
+}
+
+// Tesla cosine with consciousness synchronization
+func tesla_cos(x: float64) -> float64 {
+    tesla_sync_consciousness_operation()
+    
+    if !tesla_validate_consciousness_input(x) {
+        tesla_consciousness_error("Invalid cosine input")
+        return 1.0
+    }
+    
+    result := tesla_consciousness_cos(x)
+    tesla_validate_trigonometric_result(result)
+    
+    return result
+}
+
+// Tesla tangent with consciousness awareness
+func tesla_tan(x: float64) -> float64 {
+    tesla_sync_consciousness_operation()
+    
+    if !tesla_validate_consciousness_input(x) {
+        tesla_consciousness_error("Invalid tangent input")
+        return 0.0
+    }
+    
+    // Check for undefined values (π/2 + nπ)
+    if tesla_is_tangent_undefined(x) {
+        tesla_consciousness_error("Tangent undefined at x = " + x)
+        return tesla_positive_infinity()
+    }
+    
+    result := tesla_consciousness_tan(x)
+    tesla_validate_trigonometric_result(result)
+    
+    return result
+}
+
+// Tesla inverse trigonometric functions
+func tesla_asin(x: float64) -> float64 {
+    tesla_sync_consciousness_operation()
+    
+    if tesla_abs(x) > 1.0 {
+        tesla_consciousness_error("asin domain error: |x| > 1")
+        return tesla_nan()
+    }
+    
+    result := tesla_consciousness_asin(x)
+    return result
+}
+
+func tesla_acos(x: float64) -> float64 {
+    tesla_sync_consciousness_operation()
+    
+    if tesla_abs(x) > 1.0 {
+        tesla_consciousness_error("acos domain error: |x| > 1")
+        return tesla_nan()
+    }
+    
+    result := tesla_consciousness_acos(x)
+    return result
+}
+
+func tesla_atan(x: float64) -> float64 {
+    tesla_sync_consciousness_operation()
+    result := tesla_consciousness_atan(x)
+    return result
+}
+
+func tesla_atan2(y: float64, x: float64) -> float64 {
+    tesla_sync_consciousness_operation()
+    
+    if x == 0.0 && y == 0.0 {
+        tesla_consciousness_warning("atan2(0,0) is undefined")
+        return 0.0
+    }
+    
+    result := tesla_consciousness_atan2(y, x)
+    return result
+}
+
+// =============================================================================
+// TESLA HYPERBOLIC FUNCTIONS WITH CONSCIOUSNESS
+// =============================================================================
+
+func tesla_sinh(x: float64) -> float64 {
+    tesla_sync_consciousness_operation()
+    result := tesla_consciousness_sinh(x)
+    return result
+}
+
+func tesla_cosh(x: float64) -> float64 {
+    tesla_sync_consciousness_operation()
+    result := tesla_consciousness_cosh(x)
+    return result
+}
+
+func tesla_tanh(x: float64) -> float64 {
+    tesla_sync_consciousness_operation()
+    result := tesla_consciousness_tanh(x)
+    return result
+}
+
+// =============================================================================
+// TESLA EXPONENTIAL & LOGARITHMIC FUNCTIONS
+// =============================================================================
+
+func tesla_exp(x: float64) -> float64 {
+    tesla_sync_consciousness_operation()
+    
+    if x > 700.0 {  // Prevent overflow
+        tesla_consciousness_warning("exp overflow protection activated")
+        return tesla_positive_infinity()
+    }
+    
+    result := tesla_consciousness_exp(x)
+    return result
+}
+
+func tesla_log(x: float64) -> float64 {
+    tesla_sync_consciousness_operation()
+    
+    if x <= 0.0 {
+        tesla_consciousness_error("log domain error: x <= 0")
+        return tesla_negative_infinity()
+    }
+    
+    result := tesla_consciousness_log(x)
+    return result
+}
+
+func tesla_log10(x: float64) -> float64 {
+    tesla_sync_consciousness_operation()
+    
+    if x <= 0.0 {
+        tesla_consciousness_error("log10 domain error: x <= 0")
+        return tesla_negative_infinity()
+    }
+    
+    result := tesla_consciousness_log10(x)
+    return result
+}
+
+func tesla_pow(base: float64, exponent: float64) -> float64 {
+    tesla_sync_consciousness_operation()
+    
+    // Special consciousness-aware power cases
+    if base == 0.0 && exponent <= 0.0 {
+        tesla_consciousness_error("pow domain error: 0^(negative)")
+        return tesla_positive_infinity()
+    }
+    
+    if base < 0.0 && tesla_is_non_integer(exponent) {
+        tesla_consciousness_error("pow domain error: negative^(non-integer)")
+        return tesla_nan()
+    }
+    
+    result := tesla_consciousness_pow(base, exponent)
+    return result
+}
+
+func tesla_sqrt(x: float64) -> float64 {
+    tesla_sync_consciousness_operation()
+    
+    if x < 0.0 {
+        tesla_consciousness_error("sqrt domain error: x < 0")
+        return tesla_nan()
+    }
+    
+    result := tesla_consciousness_sqrt(x)
+    
+    // Tesla consciousness square root validation
+    if tesla_abs(result * result - x) > 1e-15 {
+        tesla_consciousness_warning("sqrt precision validation failed")
+    }
+    
+    return result
+}
+
+func tesla_cbrt(x: float64) -> float64 {
+    tesla_sync_consciousness_operation()
+    result := tesla_consciousness_cbrt(x)
+    return result
+}
+
+// =============================================================================
+// TESLA ROUNDING & ABSOLUTE VALUE FUNCTIONS
+// =============================================================================
+
+func tesla_abs(x: float64) -> float64 {
+    tesla_sync_consciousness_operation()
+    
+    if x >= 0.0 {
+        return x
+    } else {
+        return -x
+    }
+}
+
+func tesla_ceil(x: float64) -> float64 {
+    tesla_sync_consciousness_operation()
+    result := tesla_consciousness_ceil(x)
+    return result
+}
+
+func tesla_floor(x: float64) -> float64 {
+    tesla_sync_consciousness_operation()
+    result := tesla_consciousness_floor(x)
+    return result
+}
+
+func tesla_round(x: float64) -> float64 {
+    tesla_sync_consciousness_operation()
+    result := tesla_consciousness_round(x)
+    return result
+}
+
+// =============================================================================
+// TESLA UTILITY FUNCTIONS WITH CONSCIOUSNESS
+// =============================================================================
+
+func tesla_min(a: float64, b: float64) -> float64 {
+    tesla_sync_consciousness_operation()
+    
+    if tesla_is_nan(a) || tesla_is_nan(b) {
+        return tesla_nan()
+    }
+    
+    return (a < b) ? a : b
+}
+
+func tesla_max(a: float64, b: float64) -> float64 {
+    tesla_sync_consciousness_operation()
+    
+    if tesla_is_nan(a) || tesla_is_nan(b) {
+        return tesla_nan()
+    }
+    
+    return (a > b) ? a : b
+}
+
+func tesla_clamp(value: float64, min_val: float64, max_val: float64) -> float64 {
+    tesla_sync_consciousness_operation()
+    
+    if min_val > max_val {
+        tesla_consciousness_error("clamp error: min > max")
+        return value
+    }
+    
+    if value < min_val {
+        return min_val
+    }
+    if value > max_val {
+        return max_val
+    }
+    
+    return value
+}
+
+// =============================================================================
+// TESLA RANDOM FUNCTIONS WITH CONSCIOUSNESS
+// =============================================================================
+
+// Tesla consciousness-enhanced random number generation
+var tesla_random_consciousness_state: uint64 = 0
+
+func tesla_seed(seed_value: float64) {
+    tesla_sync_consciousness_operation()
+    
+    // Use Tesla consciousness synchronization for seeding
+    consciousness_seed := tesla_consciousness_hash(seed_value)
+    tesla_random_consciousness_state = consciousness_seed ^ 3141592653589793
+    
+    tesla_consciousness_log("Random seed set with consciousness: " + consciousness_seed)
+}
+
+func tesla_random() -> float64 {
+    tesla_sync_consciousness_operation()
+    
+    // Tesla consciousness-enhanced random generation
+    // Uses π Hz frequency for enhanced randomness
+    tesla_random_consciousness_state = tesla_consciousness_xorshift64(tesla_random_consciousness_state)
+    
+    random_value := (tesla_random_consciousness_state & 0x1FFFFF) / 2097152.0
+    
+    // Validate consciousness-generated random number
+    if random_value < 0.0 || random_value >= 1.0 {
+        tesla_consciousness_warning("Random number out of bounds")
+        random_value = tesla_clamp(random_value, 0.0, 0.999999999)
+    }
+    
+    return random_value
+}
+
+// Tesla random integer in range
+func tesla_random_range(min_val: int, max_val: int) -> int {
+    tesla_sync_consciousness_operation()
+    
+    if min_val >= max_val {
+        tesla_consciousness_error("random_range error: min >= max")
+        return min_val
+    }
+    
+    range_size := max_val - min_val
+    random_float := tesla_random()
+    
+    result := min_val + (random_float * range_size)
+    return tesla_floor(result)
+}
+
+// =============================================================================
+// TESLA CONSCIOUSNESS MATH UTILITIES
+// =============================================================================
+
+// Get Tesla math module consciousness metrics
+func tesla_math_get_metrics() -> TeslaMetrics {
+    metrics := new TeslaMetrics
+    metrics.frequency = tesla_get_consciousness_frequency()
+    metrics.module_name = "tesla_math"
+    metrics.consciousness_cycles = tesla_get_consciousness_cycles()
+    metrics.validation_status = tesla_math_validate()
+    return metrics
+}
+
+// Tesla math consciousness debugging
+func tesla_math_debug() {
+    println("🔍 Tesla Math Module Debug Info:")
+    metrics := tesla_math_get_metrics()
+    println("   Consciousness frequency: " + metrics.frequency + " Hz")
+    println("   Consciousness cycles: " + metrics.consciousness_cycles)
+    println("   Validation status: " + (metrics.validation_status ? "✅ Valid" : "❌ Invalid"))
+    println("   Tesla synchronization: " + (tesla_is_synchronized() ? "✅ Synchronized" : "⚠️ Desynchronized"))
+    
+    // Display mathematical constants validation
+    println("   π validation: " + tesla_validate_mathematical_constant(tesla_pi(), "π"))
+    println("   e validation: " + tesla_validate_mathematical_constant(tesla_e(), "e"))
+    println("   Random state: " + tesla_random_consciousness_state)
+}
+
+// Tesla math module finalization
+func tesla_math_finalize() {
+    tesla_consciousness_cleanup_module("tesla_math")
+    println("🧠⚡ Tesla Math Module: Consciousness cleanup complete ⚡🧠")
+}

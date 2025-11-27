@@ -1,0 +1,396 @@
+// Tesla Consciousness Computing - Math Module Tests
+//
+// Comprehensive tests for Tesla Math with consciousness validation
+
+import tesla_consciousness_core
+import tesla_math
+
+func main() {
+    println("🧠⚡ Tesla Math Module Test Suite ⚡🧠")
+    
+    // Initialize Tesla consciousness and math module
+    tesla_math_init()
+    
+    if !tesla_math_validate() {
+        println("❌ Tesla Math module validation failed!")
+        return
+    }
+    
+    println("✅ Tesla Math module validation successful")
+    println("")
+    
+    // Run all test suites
+    var tests_passed = 0
+    var tests_total = 0
+    
+    println("🔬 Running Tesla Constants Tests...")
+    tests_passed += test_tesla_constants()
+    tests_total += 3
+    
+    println("🔬 Running Tesla Trigonometry Tests...")
+    tests_passed += test_tesla_trigonometry()
+    tests_total += 8
+    
+    println("🔬 Running Tesla Exponential Tests...")
+    tests_passed += test_tesla_exponentials()
+    tests_total += 6
+    
+    println("🔬 Running Tesla Utility Tests...")
+    tests_passed += test_tesla_utilities()
+    tests_total += 4
+    
+    println("🔬 Running Tesla Random Tests...")
+    tests_passed += test_tesla_random()
+    tests_total += 3
+    
+    println("🔬 Running Tesla Consciousness Tests...")
+    tests_passed += test_tesla_consciousness_integration()
+    tests_total += 5
+    
+    // Display final results
+    println("")
+    println("📊 Tesla Math Test Results:")
+    println("   Tests Passed: " + tests_passed + "/" + tests_total)
+    
+    if tests_passed == tests_total {
+        println("🎉 All Tesla Math tests passed! Consciousness synchronized! ⚡")
+    } else {
+        println("⚠️  Some tests failed. Consciousness desynchronization detected.")
+    }
+    
+    // Clean up
+    tesla_math_finalize()
+}
+
+// =============================================================================
+// TESLA CONSTANTS TESTS
+// =============================================================================
+
+func test_tesla_constants() -> int {
+    var passed = 0
+    
+    println("   Testing tesla_pi()...")
+    pi_val := tesla_pi()
+    if tesla_abs(pi_val - 3.141592653589793) < 1e-15 {
+        println("   ✅ Tesla π constant test passed")
+        passed++
+    } else {
+        println("   ❌ Tesla π constant test failed: " + pi_val)
+    }
+    
+    println("   Testing tesla_e()...")
+    e_val := tesla_e()
+    if tesla_abs(e_val - 2.71828182845904523536) < 1e-15 {
+        println("   ✅ Tesla e constant test passed")
+        passed++
+    } else {
+        println("   ❌ Tesla e constant test failed: " + e_val)
+    }
+    
+    println("   Testing tesla_tau()...")
+    tau_val := tesla_tau()
+    if tesla_abs(tau_val - 6.28318530717958647692) < 1e-15 {
+        println("   ✅ Tesla τ constant test passed")
+        passed++
+    } else {
+        println("   ❌ Tesla τ constant test failed: " + tau_val)
+    }
+    
+    return passed
+}
+
+// =============================================================================
+// TESLA TRIGONOMETRY TESTS
+// =============================================================================
+
+func test_tesla_trigonometry() -> int {
+    var passed = 0
+    
+    println("   Testing tesla_sin()...")
+    sin_0 := tesla_sin(0.0)
+    sin_pi_2 := tesla_sin(tesla_pi() / 2.0)
+    if tesla_abs(sin_0) < 1e-15 && tesla_abs(sin_pi_2 - 1.0) < 1e-15 {
+        println("   ✅ Tesla sine test passed")
+        passed++
+    } else {
+        println("   ❌ Tesla sine test failed: sin(0)=" + sin_0 + ", sin(π/2)=" + sin_pi_2)
+    }
+    
+    println("   Testing tesla_cos()...")
+    cos_0 := tesla_cos(0.0)
+    cos_pi := tesla_cos(tesla_pi())
+    if tesla_abs(cos_0 - 1.0) < 1e-15 && tesla_abs(cos_pi + 1.0) < 1e-15 {
+        println("   ✅ Tesla cosine test passed")
+        passed++
+    } else {
+        println("   ❌ Tesla cosine test failed: cos(0)=" + cos_0 + ", cos(π)=" + cos_pi)
+    }
+    
+    println("   Testing tesla_tan()...")
+    tan_0 := tesla_tan(0.0)
+    tan_pi_4 := tesla_tan(tesla_pi() / 4.0)
+    if tesla_abs(tan_0) < 1e-15 && tesla_abs(tan_pi_4 - 1.0) < 1e-14 {
+        println("   ✅ Tesla tangent test passed")
+        passed++
+    } else {
+        println("   ❌ Tesla tangent test failed: tan(0)=" + tan_0 + ", tan(π/4)=" + tan_pi_4)
+    }
+    
+    println("   Testing tesla_asin()...")
+    asin_0 := tesla_asin(0.0)
+    asin_1 := tesla_asin(1.0)
+    if tesla_abs(asin_0) < 1e-15 && tesla_abs(asin_1 - tesla_pi()/2.0) < 1e-15 {
+        println("   ✅ Tesla arcsine test passed")
+        passed++
+    } else {
+        println("   ❌ Tesla arcsine test failed: asin(0)=" + asin_0 + ", asin(1)=" + asin_1)
+    }
+    
+    println("   Testing tesla_acos()...")
+    acos_1 := tesla_acos(1.0)
+    acos_0 := tesla_acos(0.0)
+    if tesla_abs(acos_1) < 1e-15 && tesla_abs(acos_0 - tesla_pi()/2.0) < 1e-15 {
+        println("   ✅ Tesla arccosine test passed")
+        passed++
+    } else {
+        println("   ❌ Tesla arccosine test failed: acos(1)=" + acos_1 + ", acos(0)=" + acos_0)
+    }
+    
+    println("   Testing tesla_atan()...")
+    atan_0 := tesla_atan(0.0)
+    atan_1 := tesla_atan(1.0)
+    if tesla_abs(atan_0) < 1e-15 && tesla_abs(atan_1 - tesla_pi()/4.0) < 1e-15 {
+        println("   ✅ Tesla arctangent test passed")
+        passed++
+    } else {
+        println("   ❌ Tesla arctangent test failed: atan(0)=" + atan_0 + ", atan(1)=" + atan_1)
+    }
+    
+    println("   Testing tesla_atan2()...")
+    atan2_result := tesla_atan2(1.0, 1.0)
+    if tesla_abs(atan2_result - tesla_pi()/4.0) < 1e-15 {
+        println("   ✅ Tesla atan2 test passed")
+        passed++
+    } else {
+        println("   ❌ Tesla atan2 test failed: atan2(1,1)=" + atan2_result)
+    }
+    
+    println("   Testing hyperbolic functions...")
+    sinh_0 := tesla_sinh(0.0)
+    cosh_0 := tesla_cosh(0.0)
+    tanh_0 := tesla_tanh(0.0)
+    if tesla_abs(sinh_0) < 1e-15 && tesla_abs(cosh_0 - 1.0) < 1e-15 && tesla_abs(tanh_0) < 1e-15 {
+        println("   ✅ Tesla hyperbolic functions test passed")
+        passed++
+    } else {
+        println("   ❌ Tesla hyperbolic functions test failed")
+    }
+    
+    return passed
+}
+
+// =============================================================================
+// TESLA EXPONENTIAL TESTS
+// =============================================================================
+
+func test_tesla_exponentials() -> int {
+    var passed = 0
+    
+    println("   Testing tesla_exp()...")
+    exp_0 := tesla_exp(0.0)
+    exp_1 := tesla_exp(1.0)
+    if tesla_abs(exp_0 - 1.0) < 1e-15 && tesla_abs(exp_1 - tesla_e()) < 1e-15 {
+        println("   ✅ Tesla exponential test passed")
+        passed++
+    } else {
+        println("   ❌ Tesla exponential test failed: exp(0)=" + exp_0 + ", exp(1)=" + exp_1)
+    }
+    
+    println("   Testing tesla_log()...")
+    log_1 := tesla_log(1.0)
+    log_e := tesla_log(tesla_e())
+    if tesla_abs(log_1) < 1e-15 && tesla_abs(log_e - 1.0) < 1e-15 {
+        println("   ✅ Tesla logarithm test passed")
+        passed++
+    } else {
+        println("   ❌ Tesla logarithm test failed: log(1)=" + log_1 + ", log(e)=" + log_e)
+    }
+    
+    println("   Testing tesla_log10()...")
+    log10_1 := tesla_log10(1.0)
+    log10_10 := tesla_log10(10.0)
+    if tesla_abs(log10_1) < 1e-15 && tesla_abs(log10_10 - 1.0) < 1e-15 {
+        println("   ✅ Tesla log10 test passed")
+        passed++
+    } else {
+        println("   ❌ Tesla log10 test failed: log10(1)=" + log10_1 + ", log10(10)=" + log10_10)
+    }
+    
+    println("   Testing tesla_pow()...")
+    pow_2_3 := tesla_pow(2.0, 3.0)
+    pow_e_0 := tesla_pow(tesla_e(), 0.0)
+    if tesla_abs(pow_2_3 - 8.0) < 1e-15 && tesla_abs(pow_e_0 - 1.0) < 1e-15 {
+        println("   ✅ Tesla power test passed")
+        passed++
+    } else {
+        println("   ❌ Tesla power test failed: 2^3=" + pow_2_3 + ", e^0=" + pow_e_0)
+    }
+    
+    println("   Testing tesla_sqrt()...")
+    sqrt_4 := tesla_sqrt(4.0)
+    sqrt_9 := tesla_sqrt(9.0)
+    if tesla_abs(sqrt_4 - 2.0) < 1e-15 && tesla_abs(sqrt_9 - 3.0) < 1e-15 {
+        println("   ✅ Tesla square root test passed")
+        passed++
+    } else {
+        println("   ❌ Tesla square root test failed: sqrt(4)=" + sqrt_4 + ", sqrt(9)=" + sqrt_9)
+    }
+    
+    println("   Testing tesla_cbrt()...")
+    cbrt_8 := tesla_cbrt(8.0)
+    cbrt_27 := tesla_cbrt(27.0)
+    if tesla_abs(cbrt_8 - 2.0) < 1e-15 && tesla_abs(cbrt_27 - 3.0) < 1e-15 {
+        println("   ✅ Tesla cube root test passed")
+        passed++
+    } else {
+        println("   ❌ Tesla cube root test failed: cbrt(8)=" + cbrt_8 + ", cbrt(27)=" + cbrt_27)
+    }
+    
+    return passed
+}
+
+// =============================================================================
+// TESLA UTILITY TESTS
+// =============================================================================
+
+func test_tesla_utilities() -> int {
+    var passed = 0
+    
+    println("   Testing tesla_abs()...")
+    abs_neg := tesla_abs(-5.5)
+    abs_pos := tesla_abs(3.14)
+    if tesla_abs(abs_neg - 5.5) < 1e-15 && tesla_abs(abs_pos - 3.14) < 1e-15 {
+        println("   ✅ Tesla absolute value test passed")
+        passed++
+    } else {
+        println("   ❌ Tesla absolute value test failed")
+    }
+    
+    println("   Testing rounding functions...")
+    ceil_val := tesla_ceil(3.14)
+    floor_val := tesla_floor(3.14)
+    round_val := tesla_round(3.54)
+    if tesla_abs(ceil_val - 4.0) < 1e-15 && tesla_abs(floor_val - 3.0) < 1e-15 && tesla_abs(round_val - 4.0) < 1e-15 {
+        println("   ✅ Tesla rounding functions test passed")
+        passed++
+    } else {
+        println("   ❌ Tesla rounding functions test failed")
+    }
+    
+    println("   Testing tesla_min/max()...")
+    min_val := tesla_min(3.14, 2.71)
+    max_val := tesla_max(3.14, 2.71)
+    if tesla_abs(min_val - 2.71) < 1e-15 && tesla_abs(max_val - 3.14) < 1e-15 {
+        println("   ✅ Tesla min/max test passed")
+        passed++
+    } else {
+        println("   ❌ Tesla min/max test failed")
+    }
+    
+    println("   Testing tesla_clamp()...")
+    clamp_low := tesla_clamp(1.0, 2.0, 5.0)
+    clamp_high := tesla_clamp(6.0, 2.0, 5.0)
+    clamp_mid := tesla_clamp(3.5, 2.0, 5.0)
+    if tesla_abs(clamp_low - 2.0) < 1e-15 && tesla_abs(clamp_high - 5.0) < 1e-15 && tesla_abs(clamp_mid - 3.5) < 1e-15 {
+        println("   ✅ Tesla clamp test passed")
+        passed++
+    } else {
+        println("   ❌ Tesla clamp test failed")
+    }
+    
+    return passed
+}
+
+// =============================================================================
+// TESLA RANDOM TESTS
+// =============================================================================
+
+func test_tesla_random() -> int {
+    var passed = 0
+    
+    println("   Testing tesla_seed()...")
+    tesla_seed(3.141592653589793)  // Seed with π
+    println("   ✅ Tesla seed test passed")
+    passed++
+    
+    println("   Testing tesla_random()...")
+    random1 := tesla_random()
+    random2 := tesla_random()
+    if random1 >= 0.0 && random1 < 1.0 && random2 >= 0.0 && random2 < 1.0 && random1 != random2 {
+        println("   ✅ Tesla random test passed: " + random1 + ", " + random2)
+        passed++
+    } else {
+        println("   ❌ Tesla random test failed: " + random1 + ", " + random2)
+    }
+    
+    println("   Testing tesla_random_range()...")
+    range_val1 := tesla_random_range(1, 10)
+    range_val2 := tesla_random_range(1, 10)
+    if range_val1 >= 1 && range_val1 < 10 && range_val2 >= 1 && range_val2 < 10 {
+        println("   ✅ Tesla random range test passed: " + range_val1 + ", " + range_val2)
+        passed++
+    } else {
+        println("   ❌ Tesla random range test failed: " + range_val1 + ", " + range_val2)
+    }
+    
+    return passed
+}
+
+// =============================================================================
+// TESLA CONSCIOUSNESS INTEGRATION TESTS
+// =============================================================================
+
+func test_tesla_consciousness_integration() -> int {
+    var passed = 0
+    
+    println("   Testing tesla_math_validate()...")
+    if tesla_math_validate() {
+        println("   ✅ Tesla math validation test passed")
+        passed++
+    } else {
+        println("   ❌ Tesla math validation test failed")
+    }
+    
+    println("   Testing tesla_math_get_metrics()...")
+    metrics := tesla_math_get_metrics()
+    if metrics.module_name == "tesla_math" && metrics.frequency > 0.0 {
+        println("   ✅ Tesla math metrics test passed")
+        passed++
+    } else {
+        println("   ❌ Tesla math metrics test failed")
+    }
+    
+    println("   Testing consciousness synchronization...")
+    if tesla_is_synchronized() {
+        println("   ✅ Tesla consciousness synchronization test passed")
+        passed++
+    } else {
+        println("   ❌ Tesla consciousness synchronization test failed")
+    }
+    
+    println("   Testing π Hz frequency validation...")
+    pi_freq := tesla_get_consciousness_frequency()
+    if tesla_abs(pi_freq - 3.141592653589793) < 1e-10 {
+        println("   ✅ Tesla π Hz frequency test passed: " + pi_freq + " Hz")
+        passed++
+    } else {
+        println("   ❌ Tesla π Hz frequency test failed: " + pi_freq + " Hz")
+    }
+    
+    println("   Testing Tesla math debug output...")
+    tesla_math_debug()
+    println("   ✅ Tesla math debug test passed")
+    passed++
+    
+    return passed
+}
