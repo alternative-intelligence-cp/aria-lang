@@ -152,11 +152,17 @@ void allocate_registers() {
 }
 
 const char* get_location(int vid) {
-    static char buf[64];
+    // FIX 3.1: Rotating Buffer Pool - prevents static buffer collision
+    static char buffers[4][64]; // Pool of 4 buffers
+    static int rotate_idx = 0;
+    
+    // Select next buffer in rotation
+    char* buf = buffers[rotate_idx++ % 4];
+    
     for(int i=0; i<global_intervals.count; i++) {
         if (global_intervals.intervals[i].var_id == vid) {
             if (global_intervals.intervals[i].reg_index!= -1) return REG_NAMES[global_intervals.intervals[i].reg_index];
-            else { snprintf(buf, sizeof(buf), "[rbp%d]", global_intervals.intervals[i].stack_offset); return buf; }
+            else { snprintf(buf, 64, "[rbp%d]", global_intervals.intervals[i].stack_offset); return buf; }
         }
     }
     return "rax"; 
